@@ -22,37 +22,37 @@ export default function ProductPrice({
   }
 
   return (
-    <div className="flex flex-col text-ui-fg-base">
-      <span
-        className={clx("text-xl-semi", {
-          "text-ui-fg-interactive": selectedPrice.price_type === "sale",
-        })}
-      >
-        {!variant && "From "}
+    <div className="flex flex-col text-[#1a1a1a] mb-2">
+      <div className="flex items-center gap-3">
         <span
-          data-testid="product-price"
-          data-value={selectedPrice.calculated_price_number}
+          className={clx("text-2xl md:text-3xl font-bold", {
+            "text-red-600": selectedPrice.price_type === "sale",
+          })}
         >
-          {selectedPrice.calculated_price}
+          {!variant && "From "}
+          <span
+            data-testid="product-price"
+            data-value={selectedPrice.calculated_price_number}
+          >
+            {selectedPrice.calculated_price}
+          </span>
         </span>
-      </span>
-      {selectedPrice.price_type === "sale" && (
-        <>
-          <p>
-            <span className="text-ui-fg-subtle">Original: </span>
+
+        {selectedPrice.price_type === "sale" && (
+          <div className="flex items-center gap-2">
             <span
-              className="line-through"
+              className="text-gray-400 line-through text-lg font-medium"
               data-testid="original-product-price"
               data-value={selectedPrice.original_price_number}
             >
               {selectedPrice.original_price}
             </span>
-          </p>
-          <span className="text-ui-fg-interactive">
-            -{selectedPrice.percentage_diff}%
-          </span>
-        </>
-      )}
+            <span className="text-[12px] font-bold uppercase tracking-wider bg-red-100 text-red-700 px-2.5 py-1 rounded">
+              Save {selectedPrice.percentage_diff}%
+            </span>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

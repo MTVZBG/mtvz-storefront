@@ -1,41 +1,46 @@
 import { Metadata } from "next"
 
-import FeaturedProducts from "@modules/home/components/featured-products"
-import Hero from "@modules/home/components/hero"
-import { listCollections } from "@lib/data/collections"
-import { getRegion } from "@lib/data/regions"
+import HeroSlider from "@modules/mtvz/components/HeroSlider"
+import CategoryCarousel from "@modules/mtvz/components/CategoryCarousel"
+import FeaturedProductsSection from "@modules/mtvz/components/FeaturedProductsSection"
+import ProTeamSection from "@modules/mtvz/components/ProTeamSection"
+import LatestArticlesSection from "@modules/mtvz/components/LatestArticlesSection"
+import SectionHeading from "@modules/mtvz/components/SectionHeading"
+import Divider from "@modules/mtvz/components/Divider"
 
 export const metadata: Metadata = {
-  title: "Medusa Next.js Starter Template",
+  title: "MTVZ | Premium Equipment & Apparel",
   description:
-    "A performant frontend ecommerce starter template with Next.js 15 and Medusa.",
+    "Engineered for the elements. Designed for the extreme. MTVZ provides premium gear.",
 }
 
 export default async function Home(props: {
   params: Promise<{ countryCode: string }>
 }) {
-  const params = await props.params
-
-  const { countryCode } = params
-
-  const region = await getRegion(countryCode)
-
-  const { collections } = await listCollections({
-    fields: "id, handle, title",
-  })
-
-  if (!collections || !region) {
-    return null
-  }
+  // We keep the params around to not break NextJS types for NextJS 15 layouts
+  const params = await props.params;
 
   return (
-    <>
-      <Hero />
-      <div className="py-12">
-        <ul className="flex flex-col gap-x-6">
-          <FeaturedProducts collections={collections} region={region} />
-        </ul>
-      </div>
-    </>
+    <main className="flex flex-col w-full bg-white selection:bg-black selection:text-white pb-0 overflow-hidden">
+      <HeroSlider />
+
+      <section className="py-14 md:py-18 bg-white w-full">
+        <div className="px-6 md:px-12 w-full max-w-7xl mx-auto">
+          <SectionHeading
+            title="Shop by Category"
+            subtitle="Explore the main product groups and find the right gear faster."
+          />
+        </div>
+        <div className="mt-7 md:mt-10 w-full max-w-7xl mx-auto">
+          <CategoryCarousel />
+        </div>
+      </section>
+
+      <FeaturedProductsSection />
+
+      <ProTeamSection />
+
+      <LatestArticlesSection />
+    </main>
   )
 }

@@ -10,6 +10,7 @@ import { getProductPrice } from "@lib/util/get-product-price"
 import OptionSelect from "./option-select"
 import { HttpTypes } from "@medusajs/types"
 import { isSimpleProduct } from "@lib/util/product"
+import SmartImage from "@modules/common/components/smart-image"
 
 type MobileActionsProps = {
   product: HttpTypes.StoreProduct
@@ -55,80 +56,74 @@ const MobileActions: React.FC<MobileActionsProps> = ({
   return (
     <>
       <div
-        className={clx("lg:hidden inset-x-0 bottom-0 fixed z-50", {
+        className={clx("lg:hidden inset-x-0 bottom-0 fixed z-[200]", {
           "pointer-events-none": !show,
         })}
       >
         <Transition
           as={Fragment}
           show={show}
-          enter="ease-in-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-300"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
+          enter="ease-in-out duration-300 transform"
+          enterFrom="translate-y-full"
+          enterTo="translate-y-0"
+          leave="ease-in duration-300 transform"
+          leaveFrom="translate-y-0"
+          leaveTo="translate-y-full"
         >
           <div
-            className="bg-white flex flex-col gap-y-3 justify-center items-center text-large-regular p-4 h-full w-full border-t border-gray-200"
+            className="bg-white flex justify-between items-center p-4 border-t border-gray-200 drop-shadow-[0_-4px_10px_rgba(0,0,0,0.05)] pb-[env(safe-area-inset-bottom,16px)]"
             data-testid="mobile-actions"
           >
-            <div className="flex items-center gap-x-2">
-              <span data-testid="mobile-title">{product.title}</span>
-              <span>—</span>
-              {selectedPrice ? (
-                <div className="flex items-end gap-x-2 text-ui-fg-base">
-                  {selectedPrice.price_type === "sale" && (
-                    <p>
-                      <span className="line-through text-small-regular">
+            {/* Left Box: Thumbnail + Price */}
+            <div className="flex items-center gap-3">
+              {product.thumbnail && (
+                <div className="relative w-12 h-12 bg-gray-100 rounded overflow-hidden flex-shrink-0">
+                  <SmartImage src={product.thumbnail} alt={product.title} className="absolute inset-0 w-full h-full object-cover" fill sizes="48px" />
+                </div>
+              )}
+              <div className="flex flex-col">
+                {selectedPrice ? (
+                  <div className="flex flex-col">
+                    <span
+                      className={clx("text-lg font-bold text-[#1a1a1a] leading-none", {
+                        "text-red-600": selectedPrice.price_type === "sale",
+                      })}
+                    >
+                      {selectedPrice.calculated_price}
+                    </span>
+                    {selectedPrice.price_type === "sale" && (
+                      <span className="line-through text-xs text-gray-400 mt-0.5">
                         {selectedPrice.original_price}
                       </span>
-                    </p>
-                  )}
-                  <span
-                    className={clx({
-                      "text-ui-fg-interactive":
-                        selectedPrice.price_type === "sale",
-                    })}
-                  >
-                    {selectedPrice.calculated_price}
-                  </span>
-                </div>
-              ) : (
-                <div></div>
-              )}
+                    )}
+                  </div>
+                ) : (
+                  <div className="h-6 w-16 bg-gray-100 animate-pulse rounded" />
+                )}
+              </div>
             </div>
-            <div className={clx("grid grid-cols-2 w-full gap-x-4", {
-              "!grid-cols-1": isSimple
+
+            {/* Right Box: Buttons */}
+            <div className={clx("flex gap-2 w-1/2 max-w-[200px]", {
+              "!w-auto flex-1 ml-4": isSimple,
             })}>
-              {!isSimple && <Button
-                onClick={open}
-                variant="secondary"
-                className="w-full"
-                data-testid="mobile-actions-button"
-              >
-                <div className="flex items-center justify-between w-full">
-                  <span>
-                    {variant
-                      ? Object.values(options).join(" / ")
-                      : "Select Options"}
-                  </span>
-                  <ChevronDown />
-                </div>
-              </Button>}
-              <Button
+              {!isSimple && (
+                <button
+                  onClick={open}
+                  className="flex-1 flex items-center justify-center border border-gray-300 rounded text-[#1a1a1a] font-bold text-xs uppercase tracking-widest px-2"
+                >
+                  {variant ? 'Edit' : 'Select'}
+                </button>
+              )}
+              <button
                 onClick={handleAddToCart}
-                disabled={!inStock || !variant}
-                className="w-full"
-                isLoading={isAdding}
-                data-testid="mobile-cart-button"
+                disabled={!inStock || isAdding || (!isSimple && !variant)}
+                className={clx("flex-[2] h-12 rounded bg-black text-white font-bold text-xs uppercase tracking-widest text-center flex items-center justify-center", {
+                  "bg-gray-200 text-gray-500 cursor-not-allowed": !inStock || isAdding || (!isSimple && !variant)
+                })}
               >
-                {!variant
-                  ? "Select variant"
-                  : !inStock
-                  ? "Out of stock"
-                  : "Add to cart"}
-              </Button>
+                {(!isSimple && !variant) ? "Select" : (!inStock ? "Out of stock" : "Add to cart")}
+              </button>
             </div>
           </div>
         </Transition>

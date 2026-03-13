@@ -15,50 +15,66 @@ type Props = {
   }>
 }
 
-export async function generateStaticParams() {
-  const product_categories = await listCategories()
+const normalizeCategoryPath = (category?: string[]) => {
+  if (!category?.length) {
+    return []
+  }
 
-  if (!product_categories) {
+  return category.map((part) => part.replace(/^\/+/, "").trim()).filter(Boolean)
+}
+
+export async function generateStaticParams() {
+  const productCategories = await listCategories()
+
+  if (!productCategories?.length) {
     return []
   }
 
   const countryCodes = await listRegions().then((regions: StoreRegion[]) =>
-    regions?.map((r) => r.countries?.map((c) => c.iso_2)).flat()
+    regions?.flatMap((r) => r.countries?.map((c) => c.iso_2).filter(Boolean) || [])
   )
 
-  const categoryHandles = product_categories.map(
-    (category: any) => category.handle
-  )
+  const categoryHandles = productCategories
+    .map((category: any) => category.handle?.replace(/^\/+/, "").trim())
+    .filter(Boolean)
 
-  const staticParams = countryCodes
-    ?.map((countryCode: string | undefined) =>
-      categoryHandles.map((handle: any) => ({
+  return (
+    countryCodes?.flatMap((countryCode: string | undefined) =>
+      categoryHandles.map((handle: string) => ({
         countryCode,
         category: [handle],
       }))
-    )
-    .flat()
-
-  return staticParams
+    ) || []
+  )
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params
+  const normalizedCategory = normalizeCategoryPath(params.category)
+
+  if (!normalizedCategory.length) {
+    notFound()
+  }
+
   try {
-    const productCategory = await getCategoryByHandle(params.category)
+    const productCategory = await getCategoryByHandle(normalizedCategory)
 
-    const title = productCategory.name + " | Medusa Store"
+    if (!productCategory) {
+      notFound()
+    }
 
-    const description = productCategory.description ?? `${title} category.`
+    const title = `${productCategory.name} | MTVZ`
+    const description =
+      productCategory.description || `${productCategory.name} category.`
 
     return {
-      title: `${title} | Medusa Store`,
+      title,
       description,
       alternates: {
-        canonical: `${params.category.join("/")}`,
+        canonical: `/${params.countryCode}/categories/${normalizedCategory.join("/")}`,
       },
     }
-  } catch (error) {
+  } catch {
     notFound()
   }
 }
@@ -68,7 +84,13 @@ export default async function CategoryPage(props: Props) {
   const params = await props.params
   const { sortBy, page } = searchParams
 
-  const productCategory = await getCategoryByHandle(params.category)
+  const normalizedCategory = normalizeCategoryPath(params.category)
+
+  if (!normalizedCategory.length) {
+    notFound()
+  }
+
+  const productCategory = await getCategoryByHandle(normalizedCategory)
 
   if (!productCategory) {
     notFound()

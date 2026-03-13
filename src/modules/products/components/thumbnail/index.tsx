@@ -1,17 +1,20 @@
 import { Container, clx } from "@medusajs/ui"
-import Image from "next/image"
 import React from "react"
 
 import PlaceholderImage from "@modules/common/icons/placeholder-image"
 
 type ThumbnailProps = {
   thumbnail?: string | null
-  // TODO: Fix image typings
-  images?: any[] | null
+  images?: { url?: string | null }[] | null
   size?: "small" | "medium" | "large" | "full" | "square"
   isFeatured?: boolean
   className?: string
   "data-testid"?: string
+}
+import SmartImage from "@modules/common/components/smart-image"
+
+const isValidImageSrc = (src?: string | null): src is string => {
+  return typeof src === "string" && src.trim().length > 0
 }
 
 const Thumbnail: React.FC<ThumbnailProps> = ({
@@ -22,16 +25,23 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   className,
   "data-testid": dataTestid,
 }) => {
-  const initialImage = thumbnail || images?.[0]?.url
+  const initialImage = isValidImageSrc(thumbnail)
+    ? thumbnail
+    : isValidImageSrc(images?.[0]?.url)
+      ? images?.[0]?.url
+      : null
+
+  const hoverImage =
+    isValidImageSrc(images?.[1]?.url) ? images?.[1]?.url : null
 
   return (
     <Container
       className={clx(
-        "relative w-full overflow-hidden p-4 bg-ui-bg-subtle shadow-elevation-card-rest rounded-large group-hover:shadow-elevation-card-hover transition-shadow ease-in-out duration-150",
+        "group relative w-full overflow-hidden p-0 bg-transparent shadow-none border-transparent rounded-none transition-shadow ease-in-out duration-150",
         className,
         {
           "aspect-[11/14]": isFeatured,
-          "aspect-[9/16]": !isFeatured && size !== "square",
+          "aspect-[4/5]": !isFeatured && size !== "square",
           "aspect-[1/1]": size === "square",
           "w-[180px]": size === "small",
           "w-[290px]": size === "medium",
@@ -41,29 +51,37 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
       )}
       data-testid={dataTestid}
     >
-      <ImageOrPlaceholder image={initialImage} size={size} />
-    </Container>
-  )
-}
+      {initialImage ? (
+        <SmartImage
+          src={initialImage}
+          alt="Thumbnail"
+          className={clx(
+            "absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-500",
+            {
+              "group-hover:opacity-0": !!hoverImage,
+            }
+          )}
+          fill
+          sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
+          draggable={false}
+        />
+      ) : (
+        <div className="absolute inset-0 flex h-full w-full items-center justify-center bg-gray-100">
+          <PlaceholderImage size={size === "small" ? 16 : 24} />
+        </div>
+      )}
 
-const ImageOrPlaceholder = ({
-  image,
-  size,
-}: Pick<ThumbnailProps, "size"> & { image?: string }) => {
-  return image ? (
-    <Image
-      src={image}
-      alt="Thumbnail"
-      className="absolute inset-0 object-cover object-center"
-      draggable={false}
-      quality={50}
-      sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
-      fill
-    />
-  ) : (
-    <div className="w-full h-full absolute inset-0 flex items-center justify-center">
-      <PlaceholderImage size={size === "small" ? 16 : 24} />
-    </div>
+      {hoverImage && (
+        <SmartImage
+          src={hoverImage}
+          alt="Thumbnail hover"
+          className="absolute inset-0 h-full w-full object-cover object-center opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          fill
+          sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
+          draggable={false}
+        />
+      )}
+    </Container>
   )
 }
 

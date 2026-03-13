@@ -1,38 +1,58 @@
 import { HttpTypes } from "@medusajs/types"
-import { Heading, Text } from "@medusajs/ui"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 type ProductInfoProps = {
   product: HttpTypes.StoreProduct
 }
 
+const StarRating = () => (
+  <div className="flex items-center gap-2 mb-2">
+    <div className="flex gap-[2px] text-[#FFB800]">
+      {[1, 2, 3, 4, 5].map((i) => (
+        <svg key={i} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+          <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" />
+        </svg>
+      ))}
+    </div>
+    <span className="text-[13px] font-medium text-gray-500">4.8 (83 reviews)</span>
+  </div>
+)
+
 const ProductInfo = ({ product }: ProductInfoProps) => {
   return (
-    <div id="product-info">
-      <div className="flex flex-col gap-y-4 lg:max-w-[500px] mx-auto">
-        {product.collection && (
-          <LocalizedClientLink
-            href={`/collections/${product.collection.handle}`}
-            className="text-medium text-ui-fg-muted hover:text-ui-fg-subtle"
-          >
-            {product.collection.title}
-          </LocalizedClientLink>
-        )}
-        <Heading
-          level="h2"
-          className="text-3xl leading-10 text-ui-fg-base"
-          data-testid="product-title"
-        >
-          {product.title}
-        </Heading>
+    <div id="product-info" className="flex flex-col mb-6">
+      <StarRating />
 
-        <Text
-          className="text-medium text-ui-fg-subtle whitespace-pre-line"
+      {product.collection && (
+        <LocalizedClientLink
+          href={`/collections/${product.collection.handle}`}
+          className="text-[13px] font-bold uppercase tracking-widest text-gray-500 hover:text-black transition-colors mb-2 block"
+        >
+          {product.collection.title}
+        </LocalizedClientLink>
+      )}
+
+      <h1
+        className="text-3xl md:text-4xl font-semibold text-[#1a1a1a] leading-tight mb-4"
+        data-testid="product-title"
+      >
+        {product.title}
+      </h1>
+
+      {product.subtitle && (
+        <p className="text-gray-600 text-[15px] leading-relaxed mb-2 max-w-lg">
+          {product.subtitle}
+        </p>
+      )}
+
+      {product.description && !product.subtitle && (
+        <p
+          className="text-gray-600 text-[15px] leading-relaxed max-w-lg line-clamp-3"
           data-testid="product-description"
         >
           {product.description}
-        </Text>
-      </div>
+        </p>
+      )}
     </div>
   )
 }

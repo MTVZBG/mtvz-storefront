@@ -52,21 +52,25 @@ export async function generateStaticParams() {
   }
 }
 
-function getImagesForVariant(
-  product: HttpTypes.StoreProduct,
+const getImagesForVariant = (
+  product: any,
   selectedVariantId?: string
-) {
+) => {
+  if (!product) {
+    return []
+  }
+
   if (!selectedVariantId || !product.variants) {
-    return product.images
+    return product.images || []
   }
 
-  const variant = product.variants!.find((v) => v.id === selectedVariantId)
-  if (!variant || !variant.images.length) {
-    return product.images
+  const variant = product.variants.find((v: any) => v.id === selectedVariantId)
+
+  if (!variant) {
+    return product.images || []
   }
 
-  const imageIdsMap = new Map(variant.images.map((i) => [i.id, true]))
-  return product.images!.filter((i) => imageIdsMap.has(i.id))
+  return variant.images?.length ? variant.images : product.images || []
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
