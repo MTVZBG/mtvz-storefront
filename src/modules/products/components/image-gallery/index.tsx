@@ -27,7 +27,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
           <div
             key={img.id}
             className="group relative min-w-full min-h-full snap-start md:absolute md:inset-0 md:transition-opacity md:duration-500 ease-in-out cursor-zoom-in"
-            style={{ opacity: idx === activeIndex ? 1 : 0, zIndex: idx === activeIndex ? 10 : 0 }}
+            style={{ opacity: idx === activeIndex ? 1 : 0 }}
           >
             {!!img.url && (
               <SmartImage

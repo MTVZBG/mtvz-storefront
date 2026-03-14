@@ -46,7 +46,7 @@ export default async function ProductPreview({
         />
         {/* Badges */}
         {badgeText && (
-          <div className="absolute top-3 left-3 text-xs px-2 py-1 bg-black text-white font-bold uppercase tracking-wider rounded z-10 shadow-sm">
+          <div className="absolute top-3 left-3 text-xs px-2 py-1 bg-black text-white font-bold uppercase tracking-wider rounded shadow-sm">
             {badgeText}
           </div>
         )}

@@ -10,7 +10,8 @@ import { isEqual } from "lodash"
 import { useParams, usePathname, useSearchParams } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
 import ProductPrice from "../product-price"
-import MobileActions from "./mobile-actions"
+import ProductStockStatus from "../product-stock-status"
+import MobileStickyPurchaseBar from "../mobile-sticky-purchase-bar"
 import { useRouter } from "next/navigation"
 
 type ProductActionsProps = {
@@ -163,11 +164,7 @@ export default function ProductActions({
         </div>
 
         <div className="mt-4 flex flex-col gap-3">
-          {selectedVariant && (
-            <p className={`text-sm font-semibold tracking-wide ${inStock ? "text-green-600" : "text-red-500"}`}>
-              {inStock ? "In Stock" : "Out of Stock"}
-            </p>
-          )}
+          <ProductStockStatus inStock={inStock} selectedVariant={selectedVariant} />
 
           <div className="flex items-center gap-3 w-full">
             {/* Quantity Stepper */}
@@ -215,17 +212,9 @@ export default function ProductActions({
                     : "Add to cart")}
             </button>
           </div>
-
-          {/* Trust Signals Row directly under cart */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mt-4 pt-4 border-t border-gray-100">
-            <div className="flex items-center gap-2 text-xs font-semibold text-gray-500"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Secure</div>
-            <div className="flex items-center gap-2 text-xs font-semibold text-gray-500"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>Fast shipping</div>
-            <div className="flex items-center gap-2 text-xs font-semibold text-gray-500"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>Easy returns</div>
-            <div className="flex items-center gap-2 text-xs font-semibold text-gray-500"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>Warranty</div>
-          </div>
         </div>
 
-        <MobileActions
+        <MobileStickyPurchaseBar
           product={product}
           variant={selectedVariant}
           options={options}

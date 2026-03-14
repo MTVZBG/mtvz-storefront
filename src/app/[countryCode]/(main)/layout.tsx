@@ -8,6 +8,7 @@ import CartMismatchBanner from "@modules/layout/components/cart-mismatch-banner"
 import Footer from "@modules/mtvz/components/Footer"
 import Nav from "@modules/mtvz/components/Header"
 import FreeShippingPriceNudge from "@modules/shipping/components/free-shipping-price-nudge"
+import AppProviders from "@modules/common/components/app-providers"
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
@@ -25,7 +26,7 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
   }
 
   return (
-    <>
+    <AppProviders isAuthenticated={!!customer}>
       <Nav />
       {customer && cart && (
         <CartMismatchBanner customer={customer} cart={cart} />
@@ -40,6 +41,7 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
       )}
       {props.children}
       <Footer />
-    </>
+    </AppProviders>
   )
 }
+
