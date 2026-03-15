@@ -12,6 +12,7 @@ import PaymentContainer, {
 import Divider from "@modules/common/components/divider"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
+import { trackEvent, getBasePayload } from "@lib/analytics/track"
 
 const Payment = ({
   cart,
@@ -36,7 +37,18 @@ const Payment = ({
   const router = useRouter()
   const pathname = usePathname()
 
-  const isOpen = searchParams.get("step") === "payment"
+  const paidByGiftcard =
+    cart?.gift_cards && cart?.gift_cards?.length > 0 && cart?.total === 0
+
+  const paymentReady =
+    (activeSession && cart?.shipping_methods.length !== 0) || paidByGiftcard
+
+  const isOpen =
+    searchParams.get("step") === "payment" ||
+    (!searchParams.get("step") &&
+      cart?.shipping_address?.address_1 &&
+      cart?.shipping_methods?.length > 0 &&
+      (!activeSession || !paymentReady))
 
   const setPaymentMethod = async (method: string) => {
     setError(null)
@@ -47,12 +59,6 @@ const Payment = ({
       })
     }
   }
-
-  const paidByGiftcard =
-    cart?.gift_cards && cart?.gift_cards?.length > 0 && cart?.total === 0
-
-  const paymentReady =
-    (activeSession && cart?.shipping_methods.length !== 0) || paidByGiftcard
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -102,10 +108,23 @@ const Payment = ({
 
   useEffect(() => {
     setError(null)
-  }, [isOpen])
+
+    if (!isOpen && paymentReady && activeSession) {
+      trackEvent("checkout_payment_method_selected", {
+        ...getBasePayload(cart as any),
+        payment_method: activeSession.provider_id,
+        step: "payment"
+      })
+
+      trackEvent("checkout_review_reached", {
+        ...getBasePayload(cart as any),
+        step: "review"
+      })
+    }
+  }, [isOpen, paymentReady, activeSession?.provider_id])
 
   return (
-    <div className="bg-white">
+    <div>
       <div className="flex flex-row items-center justify-between mb-6">
         <Heading
           level="h2"
@@ -117,7 +136,7 @@ const Payment = ({
             }
           )}
         >
-          Payment
+          Плащане
           {!isOpen && paymentReady && <CheckCircleSolid />}
         </Heading>
         {!isOpen && paymentReady && (
@@ -127,7 +146,7 @@ const Payment = ({
               className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
               data-testid="edit-payment-button"
             >
-              Edit
+              Редактирай
             </button>
           </Text>
         )}
@@ -167,13 +186,13 @@ const Payment = ({
           {paidByGiftcard && (
             <div className="flex flex-col w-1/3">
               <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                Payment method
+                Начин на плащане
               </Text>
               <Text
                 className="txt-medium text-ui-fg-subtle"
                 data-testid="payment-method-summary"
               >
-                Gift card
+                Подаръчна карта
               </Text>
             </div>
           )}
@@ -195,8 +214,8 @@ const Payment = ({
             data-testid="submit-payment-button"
           >
             {!activeSession && isStripeLike(selectedPaymentMethod)
-              ? " Enter card details"
-              : "Continue to review"}
+              ? " Въведете данни на картата"
+              : "Продължи към преглед"}
           </Button>
         </div>
 
@@ -205,7 +224,7 @@ const Payment = ({
             <div className="flex items-start gap-x-1 w-full">
               <div className="flex flex-col w-1/3">
                 <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                  Payment method
+                  Начин на плащане
                 </Text>
                 <Text
                   className="txt-medium text-ui-fg-subtle"
@@ -217,7 +236,7 @@ const Payment = ({
               </div>
               <div className="flex flex-col w-1/3">
                 <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                  Payment details
+                  Детайли на плащането
                 </Text>
                 <div
                   className="flex gap-2 txt-medium text-ui-fg-subtle items-center"
@@ -231,7 +250,7 @@ const Payment = ({
                   <Text>
                     {isStripeLike(selectedPaymentMethod) && cardBrand
                       ? cardBrand
-                      : "Another step will appear"}
+                      : "Следващата стъпка ще се покаже"}
                   </Text>
                 </div>
               </div>
@@ -239,19 +258,18 @@ const Payment = ({
           ) : paidByGiftcard ? (
             <div className="flex flex-col w-1/3">
               <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                Payment method
+                Начин на плащане
               </Text>
               <Text
                 className="txt-medium text-ui-fg-subtle"
                 data-testid="payment-method-summary"
               >
-                Gift card
+                Подаръчна карта
               </Text>
             </div>
           ) : null}
         </div>
       </div>
-      <Divider className="mt-8" />
     </div>
   )
 }

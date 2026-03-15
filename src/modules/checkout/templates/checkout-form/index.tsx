@@ -25,14 +25,31 @@ export default async function CheckoutForm({
   }
 
   return (
-    <div className="w-full grid grid-cols-1 gap-y-8">
-      <Addresses cart={cart} customer={customer} />
+    <div className="w-full bg-white p-6 small:p-10 rounded-lg shadow-sm border border-ui-border-base flex flex-col gap-y-12">
+      <div>
+        <Addresses cart={cart} customer={customer} />
+      </div>
 
-      <Shipping cart={cart} availableShippingMethods={shippingMethods} />
+      <Divider />
 
-      <Payment cart={cart} availablePaymentMethods={paymentMethods} />
+      <div>
+        <Shipping cart={cart} availableShippingMethods={shippingMethods} />
+      </div>
 
-      <Review cart={cart} />
+      <Divider />
+
+      <div>
+        <Payment cart={cart} availablePaymentMethods={paymentMethods} />
+      </div>
+
+      <Divider />
+
+      <div>
+        <Review cart={cart} />
+      </div>
     </div>
   )
 }
+
+const Divider = () => <div className="w-full h-px bg-ui-border-base" />
+

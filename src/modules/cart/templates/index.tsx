@@ -4,6 +4,8 @@ import EmptyCartMessage from "../components/empty-cart-message"
 import SignInPrompt from "../components/sign-in-prompt"
 import Divider from "@modules/common/components/divider"
 import { HttpTypes } from "@medusajs/types"
+import CartTracking from "../components/cart-tracking"
+import React from "react"
 
 const CartTemplate = ({
   cart,
@@ -18,6 +20,7 @@ const CartTemplate = ({
         {cart?.items?.length ? (
           <div className="grid grid-cols-1 small:grid-cols-[1fr_360px] gap-x-40">
             <div className="flex flex-col bg-white py-6 gap-y-6">
+              <CartTracking cart={cart} />
               {!customer && (
                 <>
                   <SignInPrompt />

@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { listProducts } from "@lib/data/products"
 import { getRegion, listRegions } from "@lib/data/regions"
+import { retrieveCustomer } from "@lib/data/customer"
 import ProductTemplate from "@modules/products/templates"
 import { HttpTypes } from "@medusajs/types"
 
@@ -44,8 +45,7 @@ export async function generateStaticParams() {
       .filter((param) => param.handle)
   } catch (error) {
     console.error(
-      `Failed to generate static paths for product pages: ${
-        error instanceof Error ? error.message : "Unknown error"
+      `Failed to generate static paths for product pages: ${error instanceof Error ? error.message : "Unknown error"
       }.`
     )
     return []
@@ -124,12 +124,17 @@ export default async function ProductPage(props: Props) {
     notFound()
   }
 
+  // Fetch customer here so the PDP has a reliable server-side auth signal
+  // independent of the layout-level WishlistProvider initialization.
+  const customer = await retrieveCustomer().catch(() => null)
+
   return (
     <ProductTemplate
       product={pricedProduct}
       region={region}
       countryCode={params.countryCode}
       images={images}
+      isAuthenticated={!!customer}
     />
   )
 }

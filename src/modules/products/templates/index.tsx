@@ -23,6 +23,8 @@ type ProductTemplateProps = {
   region: HttpTypes.StoreRegion
   countryCode: string
   images: HttpTypes.StoreProductImage[]
+  /** Passed from the page/layout — reliable server-fetched auth state */
+  isAuthenticated: boolean
 }
 
 const ProductTemplate: React.FC<ProductTemplateProps> = ({
@@ -30,6 +32,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
   region,
   countryCode,
   images,
+  isAuthenticated,
 }) => {
   if (!product || !product.id) {
     return notFound()
@@ -71,6 +74,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
               <ProductGalleryActions
                 compareItem={compareItem}
                 wishlistItem={wishlistItem}
+                isAuthenticated={isAuthenticated}
               />
             </div>
           </div>
@@ -114,7 +118,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
       >
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex flex-col items-center">
           <h2 className="text-2xl font-bold uppercase tracking-widest text-[#1a1a1a] mb-12 text-center w-full">
-            You May Also Like
+            Свързани продукти
           </h2>
           <Suspense fallback={<SkeletonRelatedProducts />}>
             <RelatedProducts product={product} countryCode={countryCode} />

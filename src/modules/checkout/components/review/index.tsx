@@ -8,10 +8,15 @@ import { useSearchParams } from "next/navigation"
 const Review = ({ cart }: { cart: any }) => {
   const searchParams = useSearchParams()
 
-  const isOpen = searchParams.get("step") === "review"
-
   const paidByGiftcard =
     cart?.gift_cards && cart?.gift_cards?.length > 0 && cart?.total === 0
+
+  const isOpen =
+    searchParams.get("step") === "review" ||
+    (!searchParams.get("step") &&
+      cart?.shipping_address?.address_1 &&
+      cart?.shipping_methods?.length > 0 &&
+      (cart?.payment_collection || paidByGiftcard))
 
   const previousStepsCompleted =
     cart.shipping_address &&
@@ -19,7 +24,7 @@ const Review = ({ cart }: { cart: any }) => {
     (cart.payment_collection || paidByGiftcard)
 
   return (
-    <div className="bg-white">
+    <div>
       <div className="flex flex-row items-center justify-between mb-6">
         <Heading
           level="h2"
@@ -30,7 +35,7 @@ const Review = ({ cart }: { cart: any }) => {
             }
           )}
         >
-          Review
+          Преглед
         </Heading>
       </div>
       {isOpen && previousStepsCompleted && (
@@ -38,10 +43,7 @@ const Review = ({ cart }: { cart: any }) => {
           <div className="flex items-start gap-x-1 w-full mb-6">
             <div className="w-full">
               <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                By clicking the Place Order button, you confirm that you have
-                read, understand and accept our Terms of Use, Terms of Sale and
-                Returns Policy and acknowledge that you have read Medusa
-                Store&apos;s Privacy Policy.
+                С натискане на бутона „Поръчай“, потвърждавате, че сте прочели, разбрали и приемате Условията за ползване, Условията за продажба и Политиката за връщане, а също така и Политиката за поверителност на MTVZ.
               </Text>
             </div>
           </div>

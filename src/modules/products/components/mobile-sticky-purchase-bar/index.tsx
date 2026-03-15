@@ -116,7 +116,7 @@ const MobileStickyPurchaseBar: React.FC<MobileStickyPurchaseBarProps> = ({
                                     onClick={open}
                                     className="flex-1 flex items-center justify-center border border-gray-300 rounded text-[#1a1a1a] font-bold text-xs uppercase tracking-widest px-2"
                                 >
-                                    {variant ? 'Edit' : 'Select'}
+                                    {variant ? 'Редактирай' : 'Избери'}
                                 </button>
                             )}
                             <button
@@ -126,7 +126,7 @@ const MobileStickyPurchaseBar: React.FC<MobileStickyPurchaseBarProps> = ({
                                     "bg-gray-200 text-gray-500 cursor-not-allowed": !inStock || isAdding || (!isSimple && !variant)
                                 })}
                             >
-                                {(!isSimple && !variant) ? "Select" : (!inStock ? "Out of stock" : "Add to cart")}
+                                {(!isSimple && !variant) ? "Избери" : (!inStock ? "Изчерпан" : "Добави в количката")}
                             </button>
                         </div>
                     </div>
@@ -173,7 +173,7 @@ const MobileStickyPurchaseBar: React.FC<MobileStickyPurchaseBarProps> = ({
                                         </button>
                                     </div>
                                     <div className="bg-white px-6 py-12 pb-[env(safe-area-inset-bottom,48px)] rounded-t-3xl shadow-2xl">
-                                        <h3 className="text-xl font-bold mb-6 text-center uppercase tracking-widest">Select Variant</h3>
+                                        <h3 className="text-xl font-bold mb-6 text-center uppercase tracking-widest">Избери вариант</h3>
                                         {(product.variants?.length ?? 0) > 1 && (
                                             <div className="flex flex-col gap-y-8">
                                                 {(product.options || []).map((option) => {
@@ -196,7 +196,7 @@ const MobileStickyPurchaseBar: React.FC<MobileStickyPurchaseBarProps> = ({
                                             onClick={close}
                                             className="w-full h-14 bg-black text-white rounded font-bold uppercase tracking-widest mt-10"
                                         >
-                                            Done
+                                            Готово
                                         </button>
                                     </div>
                                 </Dialog.Panel>

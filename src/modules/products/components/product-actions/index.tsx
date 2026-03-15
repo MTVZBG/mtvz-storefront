@@ -13,6 +13,7 @@ import ProductPrice from "../product-price"
 import ProductStockStatus from "../product-stock-status"
 import MobileStickyPurchaseBar from "../mobile-sticky-purchase-bar"
 import { useRouter } from "next/navigation"
+import { trackEvent } from "@lib/analytics/track"
 
 type ProductActionsProps = {
   product: HttpTypes.StoreProduct
@@ -134,6 +135,14 @@ export default function ProductActions({
       countryCode,
     })
 
+    trackEvent("add_to_cart", {
+      item_id: selectedVariant.id,
+      item_name: product.title,
+      variant: selectedVariant.title,
+      quantity,
+      value: (selectedVariant.inventory_quantity || 0) > 0 ? 0 : 0, // Simplified, ideally we'd have price here
+    })
+
     setIsAdding(false)
   }
 
@@ -204,12 +213,12 @@ export default function ProductActions({
               )}
               data-testid="add-product-button"
             >
-              {isAdding ? "Adding..." :
+              {isAdding ? "Добавяне..." :
                 (!selectedVariant && !options
-                  ? "Select variant"
+                  ? "Избери вариант"
                   : !inStock || !isValidVariant
-                    ? "Out of stock"
-                    : "Add to cart")}
+                    ? "Изчерпан"
+                    : "Добави в количката")}
             </button>
           </div>
         </div>

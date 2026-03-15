@@ -32,8 +32,8 @@ export default async function ProductPreview({
   // Basic mock check for Out of Stock or Pre Sale
   const isOutOfStock = product.variants?.every((v) => (v as any).inventory_quantity === 0 && (v as any).manage_inventory)
   const isPreSale = !isOutOfStock && product.tags?.some(tag => tag.value.toLowerCase() === "presale")
-  const badgeText = isOutOfStock ? "Out of Stock" : isPreSale ? "Pre Sale" : null
-  const CtaText = isOutOfStock ? "Out of Stock" : "Learn More"
+  const badgeText = isOutOfStock ? "Изчерпан" : isPreSale ? "Предварителна продажба" : null
+  const CtaText = isOutOfStock ? "Изчерпан" : "Научи повече"
 
   return (
     <LocalizedClientLink href={`/products/${product.handle}`} className="group flex flex-col w-full h-full">

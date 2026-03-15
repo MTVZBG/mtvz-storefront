@@ -7,6 +7,7 @@ import { Button } from "@medusajs/ui"
 import { useElements, useStripe } from "@stripe/react-stripe-js"
 import React, { useState } from "react"
 import ErrorMessage from "../error-message"
+import { trackEvent, getBasePayload } from "@lib/analytics/track"
 
 type PaymentButtonProps = {
   cart: HttpTypes.StoreCart
@@ -37,7 +38,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
       )
     case isManual(paymentSession?.provider_id):
       return (
-        <ManualTestPaymentButton notReady={notReady} data-testid={dataTestId} />
+        <ManualTestPaymentButton notReady={notReady} cart={cart} data-testid={dataTestId} />
       )
     default:
       return <Button disabled>Select a payment method</Button>
@@ -58,6 +59,14 @@ const StripePaymentButton = ({
 
   const onPaymentCompleted = async () => {
     await placeOrder()
+      .then((res) => {
+        trackEvent("purchase", {
+          ...getBasePayload(cart),
+          order_id: res?.id, // ID of the cart that was completed
+          shipping_method: cart.shipping_methods?.[0]?.name,
+          payment_method: cart.payment_collection?.payment_sessions?.[0]?.provider_id
+        })
+      })
       .catch((err) => {
         setErrorMessage(err.message)
       })
@@ -78,6 +87,11 @@ const StripePaymentButton = ({
 
   const handlePayment = async () => {
     setSubmitting(true)
+
+    trackEvent("purchase_attempt", {
+      ...getBasePayload(cart),
+      payment_method: session?.provider_id
+    })
 
     if (!stripe || !elements || !card || !cart) {
       setSubmitting(false)
@@ -151,12 +165,20 @@ const StripePaymentButton = ({
   )
 }
 
-const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
+const ManualTestPaymentButton = ({ notReady, cart }: { notReady: boolean; cart: HttpTypes.StoreCart }) => {
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const onPaymentCompleted = async () => {
     await placeOrder()
+      .then((res) => {
+        trackEvent("purchase", {
+          ...getBasePayload(cart),
+          order_id: res?.id,
+          shipping_method: cart.shipping_methods?.[0]?.name,
+          payment_method: cart.payment_collection?.payment_sessions?.[0]?.provider_id
+        })
+      })
       .catch((err) => {
         setErrorMessage(err.message)
       })
@@ -167,6 +189,11 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
 
   const handlePayment = () => {
     setSubmitting(true)
+
+    trackEvent("purchase_attempt", {
+      ...getBasePayload(cart),
+      payment_method: cart.payment_collection?.payment_sessions?.[0]?.provider_id
+    })
 
     onPaymentCompleted()
   }

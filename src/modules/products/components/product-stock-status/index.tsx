@@ -11,7 +11,7 @@ export default function ProductStockStatus({
 
     return (
         <p className={`text-sm font-semibold tracking-wide ${inStock ? "text-green-600" : "text-red-500"}`}>
-            {inStock ? "In Stock" : "Out of Stock"}
+            {inStock ? "В наличност" : "Изчерпан"}
         </p>
     )
 }

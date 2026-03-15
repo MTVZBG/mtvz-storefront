@@ -2,20 +2,29 @@ import { deleteLineItem } from "@lib/data/cart"
 import { Spinner, Trash } from "@medusajs/icons"
 import { clx } from "@medusajs/ui"
 import { useState } from "react"
+import { trackEvent } from "@lib/analytics/track"
 
 const DeleteButton = ({
   id,
   children,
   className,
+  onDelete,
 }: {
   id: string
   children?: React.ReactNode
   className?: string
+  onDelete?: () => void
 }) => {
   const [isDeleting, setIsDeleting] = useState(false)
 
   const handleDelete = async (id: string) => {
     setIsDeleting(true)
+
+    // Call onBeforeDelete if provided
+    if (onDelete) {
+      onDelete()
+    }
+
     await deleteLineItem(id).catch((err) => {
       setIsDeleting(false)
     })
