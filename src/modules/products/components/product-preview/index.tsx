@@ -36,32 +36,47 @@ export default async function ProductPreview({
   const CtaText = isOutOfStock ? "Изчерпан" : "Научи повече"
 
   return (
-    <LocalizedClientLink href={`/products/${product.handle}`} className="group flex flex-col w-full h-full">
-      <div data-testid="product-wrapper" className="relative w-full overflow-hidden bg-gray-100 rounded-lg">
+    <LocalizedClientLink
+      href={`/products/${product.handle}`}
+      className="group flex flex-col w-full h-full bg-white transition-all duration-300 hover:shadow-md hover:-translate-y-1 rounded-xl p-3 border border-transparent hover:border-gray-100"
+    >
+      <div data-testid="product-wrapper" className="relative w-full aspect-square overflow-hidden bg-[#f7f7f7] rounded-lg mb-4">
         <Thumbnail
           thumbnail={product.thumbnail}
           images={product.images}
-          size="full"
+          size="square"
           isFeatured={isFeatured}
+          className="!bg-transparent group-hover:scale-[1.02] transition-transform duration-500"
         />
-        {/* Badges */}
+
+        {/* Badges - Smaller and top-left */}
         {badgeText && (
-          <div className="absolute top-3 left-3 text-xs px-2 py-1 bg-black text-white font-bold uppercase tracking-wider rounded shadow-sm">
+          <div className="absolute top-2 left-2 text-[10px] px-1.5 py-0.5 bg-black/90 text-white font-bold uppercase tracking-widest rounded shadow-sm z-10">
             {badgeText}
           </div>
         )}
       </div>
-      <div className="flex flex-col mt-4 gap-1.5 flex-1">
+
+      <div className="flex flex-col gap-1.5 flex-1 px-1">
         <StarRating />
-        <h3 className="text-[#1a1a1a] font-semibold text-base leading-tight mt-1" data-testid="product-title">
+        <h3 className="text-[#1a1a1a] font-medium text-sm sm:text-[15px] leading-snug line-clamp-2 h-10 mt-1" data-testid="product-title">
           {product.title}
         </h3>
-        <div className="flex items-center gap-x-2 text-gray-800 text-sm font-bold mt-1">
-          {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
+
+        <div className="mt-2 flex items-center justify-between">
+          <div className="text-black text-base font-bold">
+            {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
+          </div>
+          <div className="text-ui-fg-interactive opacity-0 group-hover:opacity-100 transition-opacity">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </div>
         </div>
 
-        <div className="mt-auto pt-4 w-full">
-          <div className="w-full border border-black/20 py-2.5 text-[13px] font-bold uppercase tracking-widest transition-colors group-hover:bg-black group-hover:text-white bg-transparent text-black rounded text-center">
+        <div className="mt-4 w-full">
+          <div className="w-full border border-gray-200 py-2 text-[11px] font-bold uppercase tracking-widest transition-all group-hover:bg-black group-hover:text-white group-hover:border-black bg-white text-gray-500 rounded-md text-center">
             {CtaText}
           </div>
         </div>
@@ -69,3 +84,4 @@ export default async function ProductPreview({
     </LocalizedClientLink>
   )
 }
+

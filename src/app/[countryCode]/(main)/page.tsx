@@ -1,9 +1,12 @@
 import { Metadata } from "next"
 
-import HeroSlider from "@modules/mtvz/components/HeroSlider"
+import Hero from "@modules/home/components/hero"
+import { homepageConfig } from "@lib/config/homepage"
 import HomeTrustBar from "@modules/home/components/home-trust-bar"
 import HomeCategoryGrid from "@modules/home/components/home-category-grid"
 import HomeBestsellers from "@modules/home/components/home-bestsellers"
+import HomePromoProducts from "@modules/home/components/home-promo-products"
+import HomeSeoBlock from "@modules/home/components/home-seo-block"
 import SectionHeading from "@modules/mtvz/components/SectionHeading"
 
 export const metadata: Metadata = {
@@ -20,7 +23,7 @@ export default async function Home(props: {
   return (
     <main className="flex flex-col w-full bg-white selection:bg-black selection:text-white overflow-hidden">
 
-      <HeroSlider />
+      <Hero {...homepageConfig.hero} />
 
       <section className="py-14 md:py-18 bg-white w-full">
         <div className="px-6 md:px-12 w-full max-w-7xl mx-auto">
@@ -38,6 +41,10 @@ export default async function Home(props: {
       <HomeBestsellers countryCode={params.countryCode} />
 
       <HomeTrustBar />
+
+      <HomePromoProducts countryCode={params.countryCode} />
+
+      <HomeSeoBlock />
 
     </main>
   )

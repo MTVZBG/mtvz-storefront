@@ -2,39 +2,38 @@ import { HttpTypes } from "@medusajs/types"
 import { listCategories } from "@lib/data/categories"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import React from "react"
+import { resolveCategoryImage, resolveCategoryName } from "@lib/config/homepage"
 
 /**
  * CategoryCard component for the HomeCategoryGrid.
- * Displays a single category with its name and a background image.
+ * Displays a single category with a top image area and a distinct bottom title bar.
  */
 const CategoryCard = ({ category }: { category: HttpTypes.StoreProductCategory }) => {
-    // Try to find image in metadata or use a high-quality placeholder
-    const categoryImage = (category as any).metadata?.image || (category as any).metadata?.thumbnail || "https://images.unsplash.com/photo-1544642236-fa2a893c52a9?q=80&w=800&auto=format&fit=crop"
-    const bgImage = `url('${categoryImage}')`
+    const categoryImage = resolveCategoryImage(category)
+    const categoryName = resolveCategoryName(category)
 
     return (
         <LocalizedClientLink
             href={`/categories/${category.handle}`}
-            className="group relative block w-full aspect-[4/5] sm:aspect-[3/2] overflow-hidden bg-gray-100 rounded-lg shadow-sm border border-gray-100"
+            className="group flex flex-col w-full overflow-hidden bg-white rounded-xl sm:rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-ui-border-base"
         >
-            <div
-                className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-105 bg-cover bg-center"
-                style={{ backgroundImage: bgImage }}
-            >
-                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300" />
+            {/* Image Area */}
+            <div className="relative w-full aspect-[4/3] overflow-hidden bg-ui-bg-subtle border-b border-ui-border-base">
+                {categoryImage ? (
+                    <div
+                        className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-[1.05] bg-cover bg-center"
+                        style={{ backgroundImage: `url('${categoryImage}')` }}
+                    />
+                ) : (
+                    <div className="absolute inset-0 w-full h-full bg-ui-bg-component transition-transform duration-500 group-hover:scale-[1.05]" />
+                )}
             </div>
 
-            <div className="absolute inset-0 flex flex-col justify-end p-6 z-10">
-                <h3 className="text-white text-xl sm:text-2xl font-bold uppercase tracking-wider mb-2 drop-shadow-md">
-                    {category.name}
+            {/* Bottom Title Bar */}
+            <div className="w-full bg-[#23201D] text-white px-4 py-3 sm:py-4 flex items-center justify-center transition-colors duration-300 group-hover:bg-black">
+                <h3 className="text-sm sm:text-base font-extrabold uppercase tracking-wider m-0 text-center">
+                    {categoryName}
                 </h3>
-                <div className="flex items-center text-white/90 text-sm font-semibold uppercase tracking-widest translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                    Разгледай
-                    <svg className="ml-2 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M5 12h14"></path>
-                        <path d="m12 5 7 7-7 7"></path>
-                    </svg>
-                </div>
             </div>
         </LocalizedClientLink>
     )
