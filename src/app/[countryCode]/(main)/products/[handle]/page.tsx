@@ -126,7 +126,7 @@ export default async function ProductPage(props: Props) {
 
   // Fetch customer here so the PDP has a reliable server-side auth signal
   // independent of the layout-level WishlistProvider initialization.
-  const customer = await retrieveCustomer().catch(() => null)
+  isAuthenticated={!!customer}
 
   return (
     <ProductTemplate
@@ -134,7 +134,7 @@ export default async function ProductPage(props: Props) {
       region={region}
       countryCode={params.countryCode}
       images={images}
-      isAuthenticated={!!customer}
+      isAuthenticated={false}
     />
   )
 }
