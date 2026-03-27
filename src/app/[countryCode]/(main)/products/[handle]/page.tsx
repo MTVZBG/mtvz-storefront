@@ -2,9 +2,7 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { listProducts } from "@lib/data/products"
 import { getRegion, listRegions } from "@lib/data/regions"
-import { retrieveCustomer } from "@lib/data/customer"
 import ProductTemplate from "@modules/products/templates"
-import { HttpTypes } from "@medusajs/types"
 
 type Props = {
   params: Promise<{ countryCode: string; handle: string }>
@@ -45,17 +43,15 @@ export async function generateStaticParams() {
       .filter((param) => param.handle)
   } catch (error) {
     console.error(
-      `Failed to generate static paths for product pages: ${error instanceof Error ? error.message : "Unknown error"
+      `Failed to generate static paths for product pages: ${
+        error instanceof Error ? error.message : "Unknown error"
       }.`
     )
     return []
   }
 }
 
-const getImagesForVariant = (
-  product: any,
-  selectedVariantId?: string
-) => {
+const getImagesForVariant = (product: any, selectedVariantId?: string) => {
   if (!product) {
     return []
   }
@@ -118,15 +114,11 @@ export default async function ProductPage(props: Props) {
     queryParams: { handle: params.handle },
   }).then(({ response }) => response.products[0])
 
-  const images = getImagesForVariant(pricedProduct, selectedVariantId)
-
   if (!pricedProduct) {
     notFound()
   }
 
-  // Fetch customer here so the PDP has a reliable server-side auth signal
-  // independent of the layout-level WishlistProvider initialization.
-  isAuthenticated={!!customer}
+  const images = getImagesForVariant(pricedProduct, selectedVariantId)
 
   return (
     <ProductTemplate
