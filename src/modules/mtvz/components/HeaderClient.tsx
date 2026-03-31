@@ -15,6 +15,7 @@ import Link from "next/link"
 import { HttpTypes } from "@medusajs/types"
 import CategoriesDrawer from "./CategoriesDrawer"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import DesktopNav from "./DesktopNav"
 
 type HeaderClientProps = {
     categories: HttpTypes.StoreProductCategory[]
@@ -25,12 +26,12 @@ export default function HeaderClient({ categories }: HeaderClientProps) {
 
     return (
         <>
-            <header className="w-full bg-white h-[70px] flex items-center justify-between px-6 lg:px-12 border-b border-gray-100 shadow-sm">
+            <header className="w-full bg-white h-[70px] flex items-center px-6 lg:px-12 border-b border-gray-100 shadow-sm relative">
 
-                {/* LEFT: Hamburger */}
+                {/* MOBILE LEFT: Hamburger */}
                 <button
                     onClick={() => setDrawerOpen(true)}
-                    className="flex items-center justify-center w-10 h-10 -ml-2 rounded-lg hover:bg-gray-100 transition-colors"
+                    className="flex lg:hidden items-center justify-center w-10 h-10 -ml-2 rounded-lg hover:bg-gray-100 transition-colors"
                     aria-label="Отвори категории"
                     aria-expanded={drawerOpen}
                 >
@@ -39,10 +40,10 @@ export default function HeaderClient({ categories }: HeaderClientProps) {
                     </svg>
                 </button>
 
-                {/* CENTER: Logo */}
+                {/* LOGO */}
                 <Link
                     href="/"
-                    className="absolute left-1/2 -translate-x-1/2 flex items-center"
+                    className="absolute left-1/2 -translate-x-1/2 lg:static lg:left-0 lg:translate-x-0 flex items-center transition-all"
                     aria-label="MTVZ начало"
                 >
                     <div className="w-[120px] h-[38px] bg-black text-white flex items-center justify-center font-bold text-xl tracking-widest uppercase select-none">
@@ -50,8 +51,11 @@ export default function HeaderClient({ categories }: HeaderClientProps) {
                     </div>
                 </Link>
 
+                {/* DESKTOP CENTER: Nav */}
+                <DesktopNav categories={categories} />
+
                 {/* RIGHT: Search + Account + Cart */}
-                <div className="flex items-center gap-5">
+                <div className="flex items-center gap-5 ml-auto">
                     {/* Search */}
                     <button
                         className="text-black hover:opacity-70 transition-opacity"

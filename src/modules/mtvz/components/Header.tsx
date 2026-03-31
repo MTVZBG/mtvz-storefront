@@ -14,16 +14,15 @@ import AnnouncementBar from "./AnnouncementBar"
 import HeaderClient from "./HeaderClient"
 import { listCategories } from "@lib/data/categories"
 import { HttpTypes } from "@medusajs/types"
+import { buildMenuTree } from "@lib/util/build-menu-tree"
 
 export default async function Header() {
     let topLevelCategories: HttpTypes.StoreProductCategory[] = []
 
     try {
         const allCategories = await listCategories()
-        // Top-level = no parent category
-        topLevelCategories = allCategories.filter(
-            (cat) => !cat.parent_category_id
-        )
+        // Build the hierarchical tree from fetched flat list, applying metadata rules
+        topLevelCategories = buildMenuTree(allCategories)
     } catch {
         // If the categories API is unavailable, the header still renders
         topLevelCategories = []
