@@ -6,7 +6,6 @@ import ProductTemplate from "@modules/products/templates"
 
 type Props = {
   params: Promise<{ countryCode: string; handle: string }>
-  searchParams: Promise<{ v_id?: string }>
 }
 
 export async function generateStaticParams() {
@@ -51,24 +50,6 @@ export async function generateStaticParams() {
   }
 }
 
-const getImagesForVariant = (product: any, selectedVariantId?: string) => {
-  if (!product) {
-    return []
-  }
-
-  if (!selectedVariantId || !product.variants) {
-    return product.images || []
-  }
-
-  const variant = product.variants.find((v: any) => v.id === selectedVariantId)
-
-  if (!variant) {
-    return product.images || []
-  }
-
-  return variant.images?.length ? variant.images : product.images || []
-}
-
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params
   const { handle } = params
@@ -101,9 +82,6 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 export default async function ProductPage(props: Props) {
   const params = await props.params
   const region = await getRegion(params.countryCode)
-  const searchParams = await props.searchParams
-
-  const selectedVariantId = searchParams.v_id
 
   if (!region) {
     notFound()
@@ -118,14 +96,12 @@ export default async function ProductPage(props: Props) {
     notFound()
   }
 
-  const images = getImagesForVariant(pricedProduct, selectedVariantId)
-
   return (
     <ProductTemplate
       product={pricedProduct}
       region={region}
       countryCode={params.countryCode}
-      images={images}
+      images={pricedProduct.images || []}
       isAuthenticated={false}
     />
   )
