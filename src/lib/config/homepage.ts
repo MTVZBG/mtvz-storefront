@@ -4,18 +4,18 @@ export const homepageConfig = {
   hero: {
     title: "Риболовът започва тук",
     subtitle: "Премиум екипировка за всеки риболовец",
-    image: "http://localhost:9000/static/1773846075596-hero%20(2).jpg",
+    image: "https://api.mtvz.bg/static/1773846075596-hero%20(2).jpg",
     ctaText: "Разгледай продуктите",
     ctaLink: "/categories/spinning-rods"
   },
   images: {
-    fallback: "http://localhost:9000/static/1773846043544-Fishing.jpg",
+    fallback: "https://api.mtvz.bg/static/1773846043544-Fishing.jpg",
     categories: {
-      "spinning-rods": "http://localhost:9000/static/1773846043543-spinning-rods.jpg",
-      "spinning-reels": "http://localhost:9000/static/1773846043543-Reels.jpg",
-      "fishing-lines": "http://localhost:9000/static/1773846043542-fishing-lines.jpg",
-      "lures": "http://localhost:9000/static/1773846043542-lures.jpg",
-      "fishing-accessories": "http://localhost:9000/static/1773846043540-fishing-accessories.jpg",
+      "spinning-rods": "https://api.mtvz.bg/static/1773846043543-spinning-rods.jpg",
+      "spinning-reels": "https://api.mtvz.bg/static/1773846043543-Reels.jpg",
+      "fishing-lines": "https://api.mtvz.bg/static/1773846043542-fishing-lines.jpg",
+      "lures": "https://api.mtvz.bg/static/1773846043542-lures.jpg",
+      "fishing-accessories": "https://api.mtvz.bg/static/1773846043540-fishing-accessories.jpg",
     } as Record<string, string>
   },
   labels: {
