@@ -1,21 +1,25 @@
+const homepageAssetBase =
+  process.env.NEXT_PUBLIC_HOMEPAGE_ASSET_BASE_URL ||
+  process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL ||
+  "http://localhost:9000"
 import { HttpTypes } from "@medusajs/types"
 
 export const homepageConfig = {
   hero: {
     title: "Риболовът започва тук",
     subtitle: "Премиум екипировка за всеки риболовец",
-    image: "https://api.mtvz.bg/static/1773846075596-hero%20(2).jpg",
+    image: `${homepageAssetBase}/static/1773846075596-hero%20(2).jpg`,
     ctaText: "Разгледай продуктите",
     ctaLink: "/categories/spinning-rods"
   },
   images: {
-    fallback: "https://api.mtvz.bg/static/1773846043544-Fishing.jpg",
+    fallback: `${homepageAssetBase}/static/1773846043544-Fishing.jpg`,
     categories: {
-      "spinning-rods": "https://api.mtvz.bg/static/1773846043543-spinning-rods.jpg",
-      "spinning-reels": "https://api.mtvz.bg/static/1773846043543-Reels.jpg",
-      "fishing-lines": "https://api.mtvz.bg/static/1773846043542-fishing-lines.jpg",
-      "lures": "https://api.mtvz.bg/static/1773846043542-lures.jpg",
-      "fishing-accessories": "https://api.mtvz.bg/static/1773846043540-fishing-accessories.jpg",
+      "spinning-rods": `${homepageAssetBase}/static/1773846043543-spinning-rods.jpg`,
+      "spinning-reels": `${homepageAssetBase}/static/1773846043543-Reels.jpg`,
+      "fishing-lines": `${homepageAssetBase}/static/1773846043542-fishing-lines.jpg`,
+      "lures": `${homepageAssetBase}/static/1773846043542-lures.jpg`,
+      "fishing-accessories": `${homepageAssetBase}/static/1773846043540-fishing-accessories.jpg`,
     } as Record<string, string>
   },
   labels: {
