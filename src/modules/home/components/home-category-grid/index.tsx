@@ -2,16 +2,15 @@ import { HttpTypes } from "@medusajs/types"
 import { listCategories } from "@lib/data/categories"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import React from "react"
-import { resolveCategoryImage, resolveCategoryName } from "@lib/config/homepage"
+import { resolveCategoryCardImage, resolveCategoryName } from "@lib/config/homepage"
 
 /**
  * CategoryCard component for the HomeCategoryGrid.
  * Displays a single category with a top image area and a distinct bottom title bar.
  */
 const CategoryCard = ({ category }: { category: HttpTypes.StoreProductCategory }) => {
-    const categoryImage = resolveCategoryImage(category)
+    const categoryImage = resolveCategoryCardImage(category)
     const categoryName = resolveCategoryName(category)
-
     return (
         <LocalizedClientLink
             href={`/categories/${category.handle}`}
@@ -46,7 +45,8 @@ const CategoryCard = ({ category }: { category: HttpTypes.StoreProductCategory }
 export default async function HomeCategoryGrid() {
     // Fetch categories from Medusa Store API
     const categories = await listCategories()
-
+    console.log("HOME CATEGORY GRID categories count:", categories?.length, categories)
+    
     if (!categories || categories.length === 0) {
         return null
     }
