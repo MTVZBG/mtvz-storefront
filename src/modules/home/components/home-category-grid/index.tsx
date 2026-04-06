@@ -4,6 +4,7 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import React from "react"
 import { resolveCategoryCardImage, resolveCategoryName } from "@lib/config/homepage"
 
+
 /**
  * CategoryCard component for the HomeCategoryGrid.
  * Displays a single category with a top image area and a distinct bottom title bar.
@@ -19,12 +20,11 @@ const CategoryCard = ({ category }: { category: HttpTypes.StoreProductCategory }
             {/* Image Area */}
             <div className="relative w-full aspect-[4/3] overflow-hidden bg-ui-bg-subtle border-b border-ui-border-base">
                 {categoryImage ? (
-                    <div
-                        className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-[1.05] bg-cover bg-center"
-                        style={{ backgroundImage: `url('${categoryImage}')` }}
-                    />
+                    <div  className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-[1.05] bg-cover bg-center"
+  style={{ backgroundImage: `url('${categoryImage}')` }}
+/>
                 ) : (
-                    <div className="absolute inset-0 w-full h-full bg-ui-bg-component transition-transform duration-500 group-hover:scale-[1.05]" />
+                    <div className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-[1.05] bg-contain bg-center bg-no-repeat"  />
                 )}
             </div>
 
