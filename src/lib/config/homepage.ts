@@ -36,6 +36,7 @@ export const homepageConfig = {
     "spinning-rods": `${homepageAssetBase}/static/1773846043543-spinning-rods.jpg`,
     "spinning-reels": `${homepageAssetBase}/static/1773846043543-Reels.jpg`,
     "fishing-lines": `${homepageAssetBase}/static/1773846043542-fishing-lines.jpg`,
+    "sea": `${homepageAssetBase}/static/sea-home-banner.jpg`,
     "lures": `${homepageAssetBase}/static/1773846043542-lures.jpg`,
   } as Record<string, string>,
 },
