@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { Button, Heading, Text } from "@medusajs/ui";
 import LocalizedClientLink from "@modules/common/components/localized-client-link";
 
@@ -39,7 +38,7 @@ export default function HeroSlider() {
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-                        <LocalizedClientLink href="/categories/spinning-rods" className="w-full sm:w-auto">
+                        <LocalizedClientLink href="/spinning/spinning-rods" className="w-full sm:w-auto">
                             <Button
                                 size="large"
                                 className="w-full h-14 px-10 text-base font-bold uppercase tracking-widest transition-all hover:-translate-y-1 hover:shadow-xl active:translate-y-0"
@@ -48,7 +47,7 @@ export default function HeroSlider() {
                             </Button>
                         </LocalizedClientLink>
 
-                        <LocalizedClientLink href="/categories/spinning-reels" className="w-full sm:w-auto">
+                        <LocalizedClientLink href="/spinning/spinning-reels" className="w-full sm:w-auto">
                             <Button
                                 variant="secondary"
                                 size="large"

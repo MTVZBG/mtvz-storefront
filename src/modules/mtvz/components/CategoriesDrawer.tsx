@@ -4,6 +4,7 @@ import { createPortal } from "react-dom"
 import { useEffect, useState } from "react"
 import { HttpTypes } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { getCategoryHref } from "@lib/util/category-href"
 import { usePathname } from "next/navigation"
 
 type CategoriesDrawerProps = {
@@ -128,7 +129,7 @@ function CategoryItem({ category }: { category: HttpTypes.StoreProductCategory }
         <div className="border-b border-gray-50 last:border-0">
             <div className="flex items-center">
                 <LocalizedClientLink
-                    href={`/categories/${category.handle}`}
+                    href={getCategoryHref(category)}
                     className="flex-1 flex items-center px-6 py-4 text-[15px] font-bold uppercase tracking-wide text-[#1a1a1a] hover:text-black hover:bg-gray-50 transition-colors"
                 >
                     {category.name}
@@ -158,7 +159,7 @@ function CategoryItem({ category }: { category: HttpTypes.StoreProductCategory }
                     {category.category_children!.map((child) => (
                         <LocalizedClientLink
                             key={child.id}
-                            href={`/categories/${child.handle}`}
+                            href={getCategoryHref(child)}
                             className="flex items-center px-10 py-3 text-[13px] font-semibold text-gray-500 hover:text-black hover:bg-gray-100 transition-colors uppercase tracking-wide"
                         >
                             {child.name}

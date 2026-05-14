@@ -14,6 +14,7 @@ import ProductUtilityLinks from "@modules/products/components/product-utility-li
 import RelatedProducts from "@modules/products/components/related-products"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { getCategoryHref } from "@lib/util/category-href"
 import ProductActionsWrapper from "./product-actions-wrapper"
 import { productToCompareItem, productToWishlistItem } from "@lib/util/product-mappers"
 
@@ -58,7 +59,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
         <div className="flex gap-2 text-[13px] text-gray-500 mb-8 uppercase tracking-widest font-bold">
           <LocalizedClientLink href="/" className="hover:text-black transition-colors">Home</LocalizedClientLink>
           {category && (
-            <span> / <LocalizedClientLink href={`/categories/${category.handle}`} className="hover:text-black hover:underline px-1 transition-colors">{category.name}</LocalizedClientLink></span>
+            <span> / <LocalizedClientLink href={getCategoryHref(category)} className="hover:text-black hover:underline px-1 transition-colors">{category.name}</LocalizedClientLink></span>
           )}
           <span>/ <span className="text-black ml-1 border-b border-black">{product.title}</span></span>
         </div>

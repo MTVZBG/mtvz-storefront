@@ -2,6 +2,7 @@
 
 import { HttpTypes } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { getCategoryHref } from "@lib/util/category-href"
 
 type DesktopNavProps = {
   categories: HttpTypes.StoreProductCategory[]
@@ -66,7 +67,7 @@ function DesktopNavItem({
   return (
     <li className="relative group h-full flex items-center">
       <LocalizedClientLink
-        href={`/categories/${category.handle}`}
+        href={getCategoryHref(category)}
         className="text-[13px] font-bold uppercase tracking-widest text-[#1a1a1a] hover:opacity-60 transition-opacity flex items-center gap-1.5 h-full py-2"
       >
         {(category.metadata?.menu_label as string) || category.name}
@@ -102,7 +103,7 @@ function DesktopNavItem({
                     {items.map((item) => (
                       <LocalizedClientLink
                         key={item.id}
-                        href={`/categories/${item.handle}`}
+                        href={getCategoryHref(item)}
                         className="text-[14px] font-semibold text-gray-700 hover:text-black hover:underline transition-colors block"
                       >
                         {(item.metadata?.menu_label as string) || item.name}
@@ -123,7 +124,7 @@ function DesktopNavItem({
                     {defaultGroup.map((item) => (
                       <LocalizedClientLink
                         key={item.id}
-                        href={`/categories/${item.handle}`}
+                        href={getCategoryHref(item)}
                         className="text-[14px] font-semibold text-gray-700 hover:text-black hover:underline transition-colors block"
                       >
                         {(item.metadata?.menu_label as string) || item.name}
@@ -144,7 +145,7 @@ function DesktopNavItem({
                 </span>
               </div>
               <LocalizedClientLink
-                href={`/categories/${category.handle}`}
+                href={getCategoryHref(category)}
                className="text-[12px] font-bold uppercase tracking-widest text-black hover:underline flex items-center gap-2 mt-8 inline-flex"
               >
                 Към категорията

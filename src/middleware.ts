@@ -109,6 +109,41 @@ export async function middleware(request: NextRequest) {
   }
 
   if (urlHasCountryCode) {
+    const pathParts = request.nextUrl.pathname.split("/").filter(Boolean)
+    const routeAfterCountryCode = pathParts[1]
+
+    const reservedRoutes = new Set([
+      "account",
+      "cart",
+      "categories",
+      "checkout",
+      "collections",
+      "easy-returns",
+      "fast-shipping",
+      "order",
+      "products",
+      "secure-payment",
+      "store",
+      "warranty",
+    ])
+
+    if (routeAfterCountryCode && !reservedRoutes.has(routeAfterCountryCode)) {
+      const cleanCategoryPath = pathParts.slice(1).join("/")
+      const rewriteUrl = request.nextUrl.clone()
+
+      rewriteUrl.pathname = `/${countryCode}/categories/${cleanCategoryPath}`
+
+      const response = NextResponse.rewrite(rewriteUrl)
+
+      if (!cacheIdCookie) {
+        response.cookies.set("_medusa_cache_id", cacheId, {
+          maxAge: 60 * 60 * 24,
+        })
+      }
+
+      return response
+    }
+
     const response = NextResponse.next()
 
     if (!cacheIdCookie) {

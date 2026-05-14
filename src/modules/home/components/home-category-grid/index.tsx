@@ -3,7 +3,7 @@ import { listCategories } from "@lib/data/categories"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import React from "react"
 import { resolveCategoryCardImage, resolveCategoryName } from "@lib/config/homepage"
-
+import { getCategoryHref } from "@lib/util/category-href"
 
 /**
  * CategoryCard component for the HomeCategoryGrid.
@@ -14,17 +14,18 @@ const CategoryCard = ({ category }: { category: HttpTypes.StoreProductCategory }
     const categoryName = resolveCategoryName(category)
     return (
         <LocalizedClientLink
-            href={`/categories/${category.handle}`}
+            href={getCategoryHref(category)}
             className="group flex flex-col w-full overflow-hidden bg-white rounded-xl sm:rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-ui-border-base"
         >
             {/* Image Area */}
             <div className="relative w-full aspect-[4/3] overflow-hidden bg-ui-bg-subtle border-b border-ui-border-base">
                 {categoryImage ? (
-                    <div  className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-[1.05] bg-cover bg-center"
-  style={{ backgroundImage: `url('${categoryImage}')` }}
-/>
+                    <div
+                        className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-[1.05] bg-cover bg-center"
+                        style={{ backgroundImage: `url('${categoryImage}')` }}
+                    />
                 ) : (
-                    <div className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-[1.05] bg-contain bg-center bg-no-repeat"  />
+                    <div className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-[1.05] bg-contain bg-center bg-no-repeat" />
                 )}
             </div>
 
@@ -43,18 +44,13 @@ const CategoryCard = ({ category }: { category: HttpTypes.StoreProductCategory }
  * Fetches and displays top-level product categories in a responsive grid.
  */
 export default async function HomeCategoryGrid() {
-    // Fetch categories from Medusa Store API
     const categories = await listCategories()
-    console.log("HOME CATEGORY GRID categories count:", categories?.length, categories)
-    
+
     if (!categories || categories.length === 0) {
         return null
     }
 
-    // Filter to show only top-level categories
     const topLevelCategories = categories.filter((c) => !c.parent_category_id)
-
-    // Use top-level categories if available, otherwise fallback to all (first 6)
     const displayCategories = (topLevelCategories.length > 0 ? topLevelCategories : categories).slice(0, 6)
 
     return (

@@ -1,9 +1,11 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import { getCategoryByHandle, listCategories } from "@lib/data/categories"
+import { buildCategoryPath, getCategoryByHandle, listCategories } from "@lib/data/categories"
 import { listRegions } from "@lib/data/regions"
 import { StoreRegion } from "@medusajs/types"
+import { generateCategoryJsonLd } from "@lib/seo/category-schema"
+import { generateCategoryMetadata } from "@lib/seo/category-metadata"
 import CategoryTemplate from "@modules/categories/templates"
 
 type Props = {
@@ -58,15 +60,15 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
       notFound()
     }
 
-    const title = `${productCategory.name} | MTVZ`
-    const description =
-      productCategory.description || `${productCategory.name} category.`
+    const metadata = generateCategoryMetadata(productCategory)
+
+    const canonicalCategoryPath = buildCategoryPath(productCategory)
 
     return {
-      title,
-      description,
+      title: metadata.title,
+      description: metadata.description,
       alternates: {
-        canonical: `/${params.countryCode}/categories/${normalizedCategory.join("/")}`,
+        canonical: `/${params.countryCode}/${canonicalCategoryPath.join("/")}`,
       },
     }
   } catch {
@@ -88,12 +90,25 @@ export default async function CategoryPage(props: Props) {
     notFound()
   }
 
+  const jsonLd = generateCategoryJsonLd({
+    category: productCategory,
+    countryCode: params.countryCode,
+  })
+
   return (
-    <CategoryTemplate
-      category={productCategory}
-      sortBy={undefined}
-      page={undefined}
-      countryCode={params.countryCode}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd),
+        }}
+      />
+      <CategoryTemplate
+        category={productCategory}
+        sortBy={undefined}
+        page={undefined}
+        countryCode={params.countryCode}
+      />
+    </>
   )
 }

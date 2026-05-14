@@ -6,6 +6,7 @@ import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-g
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import PaginatedProducts from "@modules/store/templates/paginated-products"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { getCategoryHref } from "@lib/util/category-href"
 
 import CategoryHero from "./category-hero"
 import CategorySidebar from "./category-sidebar"
@@ -51,7 +52,7 @@ export default function CategoryTemplate({
         <div className="flex gap-2 text-sm text-gray-500 mb-6 uppercase tracking-widest font-bold">
           <LocalizedClientLink href="/" className="hover:text-black transition-colors">Home</LocalizedClientLink>
           {parents.map((p) => (
-            <span key={p.id}> / <LocalizedClientLink href={`/categories/${p.handle}`} className="hover:text-black hover:underline px-1 transition-colors">{p.name}</LocalizedClientLink></span>
+            <span key={p.id}> / <LocalizedClientLink href={getCategoryHref(p)} className="hover:text-black hover:underline px-1 transition-colors">{p.name}</LocalizedClientLink></span>
           ))}
           <span>/ <span className="text-black ml-1 border-b border-black">{category.name}</span></span>
         </div>
@@ -89,15 +90,22 @@ export default function CategoryTemplate({
           <div className="mt-16 pt-8 border-t border-gray-100 w-full">
             <h3 className="text-sm font-bold uppercase tracking-widest mb-4">Related Categories</h3>
             <div className="flex flex-wrap gap-2">
-              {category.category_children?.map((c) => (
-                <LocalizedClientLink
-                  key={c.id}
-                  href={`/categories/${c.handle}`}
-                  className="px-4 py-2 bg-gray-50 text-gray-700 text-[13px] font-semibold uppercase hover:bg-black hover:text-white transition-colors rounded-sm"
-                >
-                  {c.name}
-                </LocalizedClientLink>
-              ))}
+              {category.category_children?.map((c) => {
+                const childCategory = {
+                  ...c,
+                  parent_category: c.parent_category || category,
+                }
+
+                return (
+                  <LocalizedClientLink
+                    key={c.id}
+                    href={getCategoryHref(childCategory)}
+                    className="px-4 py-2 bg-gray-50 text-gray-700 text-[13px] font-semibold uppercase hover:bg-black hover:text-white transition-colors rounded-sm"
+                  >
+                    {c.name}
+                  </LocalizedClientLink>
+                )
+              })}
             </div>
           </div>
         )}

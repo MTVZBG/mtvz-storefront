@@ -11,7 +11,7 @@ export const homepageConfig = {
     subtitle: "Премиум екипировка за всеки риболовец",
     image: `${homepageAssetBase}/static/1773846075596-hero%20(2).jpg`,
     ctaText: "Разгледай продуктите",
-    ctaLink: "/categories/spinning-rods",
+    ctaLink: "/spinning/spinning-rods",
   },
   images: {
     fallback: `${homepageAssetBase}/static/1773846043544-Fishing.jpg`,

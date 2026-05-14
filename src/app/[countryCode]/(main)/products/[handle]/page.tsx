@@ -3,6 +3,8 @@ import { notFound } from "next/navigation"
 import { listProducts } from "@lib/data/products"
 import { getRegion, listRegions } from "@lib/data/regions"
 import ProductTemplate from "@modules/products/templates"
+import { generateProductMetadata } from "@lib/seo/product-metadata"
+import { generateProductJsonLd } from "@lib/seo/product-schema"
 
 type Props = {
   params: Promise<{ countryCode: string; handle: string }>
@@ -68,12 +70,17 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     notFound()
   }
 
+  const metadata = generateProductMetadata(product)
+
   return {
-    title: `${product.title} | Medusa Store`,
-    description: `${product.title}`,
+    title: metadata.title,
+    description: metadata.description,
+    alternates: {
+      canonical: `/${params.countryCode}/products/${product.handle}`,
+    },
     openGraph: {
-      title: `${product.title} | Medusa Store`,
-      description: `${product.title}`,
+      title: metadata.title,
+      description: metadata.description,
       images: product.thumbnail ? [product.thumbnail] : [],
     },
   }
@@ -96,13 +103,26 @@ export default async function ProductPage(props: Props) {
     notFound()
   }
 
+  const jsonLd = generateProductJsonLd({
+    product: pricedProduct,
+    countryCode: params.countryCode,
+  })
+
   return (
-    <ProductTemplate
-      product={pricedProduct}
-      region={region}
-      countryCode={params.countryCode}
-      images={pricedProduct.images || []}
-      isAuthenticated={false}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd),
+        }}
+      />
+      <ProductTemplate
+        product={pricedProduct}
+        region={region}
+        countryCode={params.countryCode}
+        images={pricedProduct.images || []}
+        isAuthenticated={false}
+      />
+    </>
   )
 }
