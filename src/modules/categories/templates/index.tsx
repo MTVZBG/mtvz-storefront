@@ -7,6 +7,7 @@ import { SortOptions } from "@modules/store/components/refinement-list/sort-prod
 import PaginatedProducts from "@modules/store/templates/paginated-products"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { getCategoryHref } from "@lib/util/category-href"
+import type { CategorySeoContent } from "@lib/data/category-seo"
 
 import CategoryHero from "./category-hero"
 import CategorySidebar from "./category-sidebar"
@@ -16,11 +17,13 @@ import MobileFilterDrawer from "./mobile-filter-drawer"
 
 export default function CategoryTemplate({
   category,
+  categorySeoContent,
   sortBy,
   page,
   countryCode,
 }: {
   category: HttpTypes.StoreProductCategory
+  categorySeoContent?: CategorySeoContent | null
   sortBy?: SortOptions
   page?: string
   countryCode: string
@@ -40,6 +43,7 @@ export default function CategoryTemplate({
   }
 
   getParents(category)
+
 
   return (
     <div className="flex flex-col w-full bg-white pb-0" data-testid="category-container">
@@ -70,6 +74,12 @@ export default function CategoryTemplate({
             {/* Mobile Filter Drawer (hidden on Desktop) */}
             <MobileFilterDrawer />
 
+            {categorySeoContent?.intro_text ? (
+              <div className="mb-8 text-[15px] leading-7 text-gray-700">
+                {categorySeoContent.intro_text}
+              </div>
+            ) : null}
+
             {/* 7. Control Bar */}
             <TopControlBar sortBy={sort} />
 
@@ -84,6 +94,16 @@ export default function CategoryTemplate({
             </Suspense>
           </div>
         </div>
+
+        {categorySeoContent?.bottom_text ? (
+          <div className="w-full max-w-3xl mx-auto mt-12 text-[15px] leading-7 text-gray-700">
+            {categorySeoContent.bottom_text}
+          </div>
+        ) : null}
+
+        {categorySeoContent?.faq?.length ? (
+          <SEOFaqAccordion faq={categorySeoContent.faq} />
+        ) : null}
 
         {/* Categories Children links as tags for SEO / Discovery */}
         {category.category_children && category.category_children.length > 0 && (
@@ -111,9 +131,6 @@ export default function CategoryTemplate({
         )}
 
       </div>
-
-      {/* 13. SEO FAQ Content block */}
-      <SEOFaqAccordion categoryName={category.name} />
     </div>
   )
 }
