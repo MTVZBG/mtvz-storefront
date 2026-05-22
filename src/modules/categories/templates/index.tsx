@@ -14,6 +14,7 @@ import CategorySidebar from "./category-sidebar"
 import TopControlBar from "./top-control-bar"
 import SEOFaqAccordion from "./seo-faq-accordion"
 import MobileFilterDrawer from "./mobile-filter-drawer"
+import CategorySeoMediaSections from "./category-seo-media-sections"
 
 export default function CategoryTemplate({
   category,
@@ -80,6 +81,11 @@ export default function CategoryTemplate({
               </div>
             ) : null}
 
+            <CategorySeoMediaSections
+              mediaSections={categorySeoContent?.media_sections}
+              type="intro_image"
+            />
+
             {/* 7. Control Bar */}
             <TopControlBar sortBy={sort} />
 
@@ -100,6 +106,16 @@ export default function CategoryTemplate({
             {categorySeoContent.bottom_text}
           </div>
         ) : null}
+
+        <CategorySeoMediaSections
+          mediaSections={categorySeoContent?.media_sections}
+          type="bottom_image"
+        />
+
+        <CategorySeoMediaSections
+          mediaSections={categorySeoContent?.media_sections}
+          type="video"
+        />
 
         {categorySeoContent?.faq?.length ? (
           <SEOFaqAccordion faq={categorySeoContent.faq} />
