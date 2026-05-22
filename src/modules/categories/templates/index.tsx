@@ -15,6 +15,7 @@ import TopControlBar from "./top-control-bar"
 import SEOFaqAccordion from "./seo-faq-accordion"
 import MobileFilterDrawer from "./mobile-filter-drawer"
 import CategorySeoMediaSections from "./category-seo-media-sections"
+import CategorySeoRichText from "../components/category-seo-rich-text"
 
 export default function CategoryTemplate({
   category,
@@ -76,9 +77,10 @@ export default function CategoryTemplate({
             <MobileFilterDrawer />
 
             {categorySeoContent?.intro_text ? (
-              <div className="mb-8 text-[15px] leading-7 text-gray-700">
-                {categorySeoContent.intro_text}
-              </div>
+              <CategorySeoRichText
+                html={categorySeoContent.intro_text}
+                className="mb-8"
+              />
             ) : null}
 
             <CategorySeoMediaSections
@@ -102,9 +104,10 @@ export default function CategoryTemplate({
         </div>
 
         {categorySeoContent?.bottom_text ? (
-          <div className="w-full max-w-3xl mx-auto mt-12 text-[15px] leading-7 text-gray-700">
-            {categorySeoContent.bottom_text}
-          </div>
+          <CategorySeoRichText
+            html={categorySeoContent.bottom_text}
+            className="w-full max-w-3xl mx-auto mt-12"
+          />
         ) : null}
 
         <CategorySeoMediaSections
