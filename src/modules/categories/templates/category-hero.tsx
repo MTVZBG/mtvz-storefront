@@ -1,20 +1,28 @@
 import { HttpTypes } from "@medusajs/types"
-import { resolveCategoryImage } from "@lib/config/homepage"
+import { getCategorySiteAsset } from "@lib/data/site-assets"
 
-export default function CategoryHero({
+export default async function CategoryHero({
   category,
 }: {
   category: HttpTypes.StoreProductCategory
 }) {
-  const image = resolveCategoryImage(category)
+  const asset = category.handle
+    ? await getCategorySiteAsset(category.handle, "hero")
+    : null
+
+  const image = asset?.image_url || null
+  const imageAlt = asset?.alt_text || category.name
 
   return (
-    <div className="relative w-full h-[180px] md:h-[300px] flex items-center justify-center overflow-hidden mb-8 md:mb-12">
-      <img
-        src={image}
-        alt={category.name}
-        className="absolute inset-0 w-full h-full object-cover"
-      />
+    <div className="relative w-full h-[180px] md:h-[300px] flex items-center justify-center overflow-hidden mb-8 md:mb-12 bg-neutral-900">
+      {image && (
+        <img
+          src={image}
+          alt={imageAlt}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      )}
+
       <div className="absolute inset-0 bg-black/30" />
 
       <div className="relative z-10 text-center px-6">
