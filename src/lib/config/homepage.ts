@@ -9,7 +9,7 @@ export const homepageConfig = {
   hero: {
     title: "Риболовът започва тук",
     subtitle: "Премиум екипировка за всеки риболовец",
-    image: `${homepageAssetBase}/static/1773846075596-hero%20(2).jpg`,
+    image: `${homepageAssetBase}/static/1773846075596-hero-2.webp`,
     ctaText: "Разгледай продуктите",
     ctaLink: "/spinning/spinning-rods",
   },
