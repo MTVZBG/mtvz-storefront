@@ -13,6 +13,7 @@ const OPTIMIZED_EXTERNAL_IMAGE_HOSTNAMES = new Set([
   "matchfishing.hr",
   "hobbyhome.co.uk",
   "cbu01.alicdn.com",
+  "api.mtvz.bg",
 ])
 
 const isExternalUrl = (src: string | StaticImageData | unknown): src is string => {
