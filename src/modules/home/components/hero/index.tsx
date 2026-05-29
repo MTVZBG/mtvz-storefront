@@ -1,5 +1,6 @@
 import { Button, Heading } from "@medusajs/ui"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import SmartImage from "@modules/common/components/smart-image"
 
 type HeroProps = {
   title: string
@@ -14,10 +15,13 @@ const Hero: React.FC<HeroProps> = ({ title, subtitle, image, ctaText, ctaLink })
     <div className="h-[380px] small:h-[500px] medium:h-[70vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle overflow-hidden">
       {/* Background Image with Light E-commerce Overlay */}
       <div className="absolute inset-0 z-0">
-        <img
+        <SmartImage
           src={image}
           alt={title}
-          className="w-full h-full object-cover object-[center_30%] small:object-center"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[center_30%] small:object-center"
         />
         <div className="absolute inset-0 bg-black/30 bg-gradient-to-t from-black/50 via-black/10 to-transparent"></div>
       </div>

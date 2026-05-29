@@ -20,6 +20,7 @@ const PRODUCT_IMAGE_HOSTNAMES = [
   "matchfishing.hr",
   "hobbyhome.co.uk",
   "cbu01.alicdn.com",
+  "api.mtvz.bg",
 ]
 
 
