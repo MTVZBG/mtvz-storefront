@@ -20,6 +20,7 @@ const Hero: React.FC<HeroProps> = ({ title, subtitle, image, ctaText, ctaLink })
           alt={title}
           fill
           priority
+          fetchPriority="high"
           sizes="100vw"
           className="object-cover object-[center_30%] small:object-center"
         />
