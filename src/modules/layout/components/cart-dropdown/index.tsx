@@ -8,7 +8,6 @@ import {
 } from "@headlessui/react"
 import { convertToLocale } from "@lib/util/money"
 import { HttpTypes } from "@medusajs/types"
-import { Button } from "@medusajs/ui"
 import DeleteButton from "@modules/common/components/delete-button"
 import LineItemOptions from "@modules/common/components/line-item-options"
 import LineItemPrice from "@modules/common/components/line-item-price"
@@ -191,15 +190,13 @@ const CartDropdown = ({
                       })}
                     </span>
                   </div>
-                  <LocalizedClientLink href="/cart" passHref>
-                    <Button
-                      className="w-full"
-                      size="large"
-                      data-testid="go-to-cart-button"
-                    >
-                      Към количката
-                    </Button>
-                  </LocalizedClientLink>
+                <LocalizedClientLink
+  href="/cart"
+  className="inline-flex w-full items-center justify-center rounded-rounded bg-gray-900 px-4 py-3 text-small-regular font-semibold text-white transition-colors hover:bg-gray-700"
+  data-testid="go-to-cart-button"
+>
+  Към количката
+</LocalizedClientLink>
                 </div>
               </>
             ) : (
@@ -210,12 +207,14 @@ const CartDropdown = ({
                   </div>
                   <span>Количката е празна.</span>
                   <div>
-                    <LocalizedClientLink href="/store">
-                      <>
-                        <span className="sr-only">Към всички продукти</span>
-                        <Button onClick={close}>Разгледай продукти</Button>
-                      </>
-                    </LocalizedClientLink>
+                   <LocalizedClientLink
+  href="/store"
+  onClick={close}
+  className="inline-flex items-center justify-center rounded-rounded bg-gray-900 px-4 py-2 text-small-regular font-semibold text-white transition-colors hover:bg-gray-700"
+>
+  <span className="sr-only">Към всички продукти</span>
+  Разгледай продукти
+</LocalizedClientLink>
                   </div>
                 </div>
               </div>

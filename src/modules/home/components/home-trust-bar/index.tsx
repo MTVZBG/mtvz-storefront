@@ -1,4 +1,3 @@
-import { Text } from "@medusajs/ui"
 import React from "react"
 
 const TrustItem = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
@@ -6,9 +5,9 @@ const TrustItem = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
         <div className="text-ui-fg-subtle group-hover:text-ui-fg-interactive transition-colors duration-300">
             {icon}
         </div>
-        <Text className="text-[11px] sm:text-[12px] font-bold uppercase tracking-[0.05em] sm:tracking-[0.1em] text-gray-600 transition-colors group-hover:text-black">
+        <p className="text-[11px] sm:text-[12px] font-bold uppercase tracking-[0.05em] sm:tracking-[0.1em] text-gray-600 transition-colors group-hover:text-black">
             {text}
-        </Text>
+        </p>
     </div>
 )
 

@@ -1,7 +1,5 @@
 import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
-import { Text, clx } from "@medusajs/ui"
-
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { getCategoryHref } from "@lib/util/category-href"
 import MedusaCTA from "@modules/layout/components/medusa-cta"
@@ -47,10 +45,7 @@ export default async function Footer() {
                         key={c.id}
                       >
                         <LocalizedClientLink
-                          className={clx(
-                            "hover:text-ui-fg-base",
-                            children && "txt-small-plus"
-                          )}
+                          className={`hover:text-ui-fg-base ${children ? "txt-small-plus" : ""}`}
                           href={getCategoryHref(c)}
                           data-testid="category-link"
                         >
@@ -84,12 +79,7 @@ export default async function Footer() {
                   Collections
                 </span>
                 <ul
-                  className={clx(
-                    "grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small",
-                    {
-                      "grid-cols-2": (collections?.length || 0) > 3,
-                    }
-                  )}
+                  className={`grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small ${(collections?.length || 0) > 3 ? "grid-cols-2" : ""}`}
                 >
                   {collections?.slice(0, 6).map((c) => (
                     <li key={c.id}>
@@ -142,9 +132,9 @@ export default async function Footer() {
           </div>
         </div>
         <div className="flex w-full mb-16 justify-between text-ui-fg-muted">
-          <Text className="txt-compact-small">
+          <p className="txt-compact-small">
             © {new Date().getFullYear()} MTVZ. All rights reserved.
-          </Text>
+          </p>
           <MedusaCTA />
         </div>
       </div>

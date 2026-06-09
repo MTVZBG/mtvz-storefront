@@ -2,14 +2,14 @@
 
 import { Popover, PopoverPanel, Transition } from "@headlessui/react"
 import { ArrowRightMini, XMark } from "@medusajs/icons"
-import { Text, clx, useToggleState } from "@medusajs/ui"
 import { Fragment } from "react"
 
+import useToggleState from "@lib/hooks/use-toggle-state"
+import { Locale } from "@lib/data/locales"
+import { HttpTypes } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import CountrySelect from "../country-select"
 import LanguageSelect from "../language-select"
-import { HttpTypes } from "@medusajs/types"
-import { Locale } from "@lib/data/locales"
 
 const SideMenuItems = {
   Home: "/",
@@ -71,22 +71,22 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                         <XMark />
                       </button>
                     </div>
+
                     <ul className="flex flex-col gap-6 items-start justify-start">
-                      {Object.entries(SideMenuItems).map(([name, href]) => {
-                        return (
-                          <li key={name}>
-                            <LocalizedClientLink
-                              href={href}
-                              className="text-3xl leading-10 hover:text-ui-fg-disabled"
-                              onClick={close}
-                              data-testid={`${name.toLowerCase()}-link`}
-                            >
-                              {name}
-                            </LocalizedClientLink>
-                          </li>
-                        )
-                      })}
+                      {Object.entries(SideMenuItems).map(([name, href]) => (
+                        <li key={name}>
+                          <LocalizedClientLink
+                            href={href}
+                            className="text-3xl leading-10 hover:text-ui-fg-disabled"
+                            onClick={close}
+                            data-testid={`${name.toLowerCase()}-link`}
+                          >
+                            {name}
+                          </LocalizedClientLink>
+                        </li>
+                      ))}
                     </ul>
+
                     <div className="flex flex-col gap-y-6">
                       {!!locales?.length && (
                         <div
@@ -100,13 +100,13 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                             currentLocale={currentLocale}
                           />
                           <ArrowRightMini
-                            className={clx(
-                              "transition-transform duration-150",
+                            className={`transition-transform duration-150 ${
                               languageToggleState.state ? "-rotate-90" : ""
-                            )}
+                            }`}
                           />
                         </div>
                       )}
+
                       <div
                         className="flex justify-between"
                         onMouseEnter={countryToggleState.open}
@@ -119,16 +119,15 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                           />
                         )}
                         <ArrowRightMini
-                          className={clx(
-                            "transition-transform duration-150",
+                          className={`transition-transform duration-150 ${
                             countryToggleState.state ? "-rotate-90" : ""
-                          )}
+                          }`}
                         />
                       </div>
-                      <Text className="flex justify-between txt-compact-small">
-                        © {new Date().getFullYear()} MTVZ. All rights
-                        reserved.
-                      </Text>
+
+                      <p className="flex justify-between txt-compact-small">
+                        © {new Date().getFullYear()} MTVZ. All rights reserved.
+                      </p>
                     </div>
                   </div>
                 </PopoverPanel>

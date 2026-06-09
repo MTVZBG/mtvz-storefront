@@ -1,6 +1,6 @@
-import { Container, clx } from "@medusajs/ui"
 import React from "react"
 
+import SmartImage from "@modules/common/components/smart-image"
 import PlaceholderImage from "@modules/common/icons/placeholder-image"
 
 type ThumbnailProps = {
@@ -11,7 +11,22 @@ type ThumbnailProps = {
   className?: string
   "data-testid"?: string
 }
-import SmartImage from "@modules/common/components/smart-image"
+
+const cx = (
+  ...classes: Array<
+    string | Record<string, boolean | undefined> | false | null | undefined
+  >
+) =>
+  classes
+    .flatMap((item) => {
+      if (!item) return []
+      if (typeof item === "string") return [item]
+
+      return Object.entries(item)
+        .filter(([, value]) => Boolean(value))
+        .map(([key]) => key)
+    })
+    .join(" ")
 
 const isValidImageSrc = (src?: string | null): src is string => {
   return typeof src === "string" && src.trim().length > 0
@@ -31,12 +46,11 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
       ? images?.[0]?.url
       : null
 
-  const hoverImage =
-    isValidImageSrc(images?.[1]?.url) ? images?.[1]?.url : null
+  const hoverImage = isValidImageSrc(images?.[1]?.url) ? images?.[1]?.url : null
 
   return (
-    <Container
-      className={clx(
+    <div
+      className={cx(
         "group relative w-full overflow-hidden p-0 bg-transparent shadow-none border-transparent rounded-none transition-shadow ease-in-out duration-150",
         className,
         {
@@ -55,7 +69,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
         <SmartImage
           src={initialImage}
           alt="Thumbnail"
-          className={clx(
+          className={cx(
             "absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-500",
             {
               "group-hover:opacity-0": !!hoverImage,
@@ -81,7 +95,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
           draggable={false}
         />
       )}
-    </Container>
+    </div>
   )
 }
 
