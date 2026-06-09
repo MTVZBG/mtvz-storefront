@@ -39,6 +39,7 @@ const Hero = ({ title, subtitle, image, ctaText, ctaLink }: HeroProps) => {
           <div className="flex flex-col small:flex-row items-center justify-center gap-4">
             <LocalizedClientLink
               href={ctaLink}
+              prefetch={false}
               className="inline-flex items-center justify-center w-[80vw] max-w-[280px] small:w-auto min-w-[200px] h-12 small:h-14 px-8 small:px-10 text-sm small:text-base font-extrabold uppercase tracking-wider rounded-xl shadow-lg shadow-black/20 transition-transform active:scale-95 hover:scale-[1.02] bg-white text-gray-950 hover:bg-white/90"
             >
               {ctaText}

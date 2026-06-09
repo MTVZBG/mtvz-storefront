@@ -1,8 +1,8 @@
-import { HttpTypes } from "@medusajs/types"
+import { resolveCategoryName } from "@lib/config/homepage"
 import { listCategories } from "@lib/data/categories"
 import { getCategoryCardSiteAssets } from "@lib/data/site-assets"
-import { resolveCategoryName } from "@lib/config/homepage"
 import { getCategoryHref } from "@lib/util/category-href"
+import { HttpTypes } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 const CategoryCard = ({
@@ -17,6 +17,7 @@ const CategoryCard = ({
   return (
     <LocalizedClientLink
       href={getCategoryHref(category)}
+      prefetch={false}
       className="group flex flex-col w-full overflow-hidden bg-white rounded-xl sm:rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-ui-border-base"
     >
       <div className="relative w-full aspect-[4/3] overflow-hidden bg-ui-bg-subtle border-b border-ui-border-base">
