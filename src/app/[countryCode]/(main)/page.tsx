@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import { Suspense } from "react"
 
 import Hero from "@modules/home/components/hero"
 import { homepageConfig } from "@lib/config/homepage"
@@ -34,15 +35,21 @@ export default async function Home(props: {
         </div>
 
         <div className="mt-7 md:mt-10 w-full max-w-7xl mx-auto px-6 md:px-12">
-          <HomeCategoryGrid />
+          <Suspense fallback={null}>
+            <HomeCategoryGrid />
+          </Suspense>
         </div>
       </section>
 
-      <HomeBestsellers countryCode={params.countryCode} />
+      <Suspense fallback={null}>
+        <HomeBestsellers countryCode={params.countryCode} />
+      </Suspense>
 
       <HomeTrustBar />
 
-      <HomePromoProducts countryCode={params.countryCode} />
+      <Suspense fallback={null}>
+        <HomePromoProducts countryCode={params.countryCode} />
+      </Suspense>
 
       <HomeSeoBlock />
 
