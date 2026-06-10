@@ -27,7 +27,7 @@ const Hero = ({ title, subtitle, image, ctaText, ctaLink }: HeroProps) => {
       </div>
 
       <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center px-4 small:p-32 gap-4 small:gap-6">
-        <div className="max-w-[800px] animate-in fade-in slide-in-from-bottom-4 duration-1000 mt-8 small:mt-0">
+        <div className="max-w-[800px] mt-8 small:mt-0">
           <h1 className="text-[38px] small:text-[48px] medium:text-[64px] leading-[0.95] text-white font-extrabold drop-shadow-md mb-4 small:mb-5 tracking-[-0.03em]">
             {title}
           </h1>
