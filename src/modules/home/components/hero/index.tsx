@@ -20,7 +20,6 @@ const Hero = ({ title, subtitle, image, ctaText, ctaLink }: HeroProps) => {
           fill
           priority
           fetchPriority="high"
-          decoding="sync"
           sizes="100vw"
           className="object-cover object-[center_30%] small:object-center"
         />
