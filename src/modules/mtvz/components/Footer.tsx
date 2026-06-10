@@ -43,7 +43,7 @@ function FooterNavLink({ link }: { link: FooterLink }) {
     if (link.href) {
         return <Link href={link.href} className={cls}>{link.label}</Link>
     }
-    return <span className="text-gray-500 cursor-default">{link.label}</span>
+    return <span className="text-gray-400 cursor-default">{link.label}</span>
 }
 
 // ---------------------------------------------------------------------------
@@ -82,7 +82,7 @@ export default function Footer() {
 
                     {/* Shop */}
                     <div className="flex flex-col gap-5">
-                        <h5 className="text-gray-600 mb-2">Магазин</h5>
+                        <p className="text-gray-400 mb-2">Магазин</p>
                         {FOOTER_SHOP.map((link) => (
                             <FooterNavLink key={link.label} link={link} />
                         ))}
@@ -90,7 +90,7 @@ export default function Footer() {
 
                     {/* Support — real trust pages */}
                     <div className="flex flex-col gap-5">
-                        <h5 className="text-gray-600 mb-2">Поддръжка</h5>
+                        <p className="text-gray-400 mb-2">Поддръжка</p>
                         {FOOTER_SUPPORT.map((link) => (
                             <FooterNavLink key={link.label} link={link} />
                         ))}
@@ -98,7 +98,7 @@ export default function Footer() {
 
                     {/* About */}
                     <div className="flex flex-col gap-5">
-                        <h5 className="text-gray-600 mb-2">За MTVZ</h5>
+                        <p className="text-gray-400 mb-2">За MTVZ</p>
                         {FOOTER_ABOUT.map((link) => (
                             <FooterNavLink key={link.label} link={link} />
                         ))}
@@ -108,7 +108,7 @@ export default function Footer() {
             </div>
 
             {/* Legal bar */}
-            <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-bold tracking-widest uppercase text-gray-500">
+            <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-bold tracking-widest uppercase text-gray-400">
                 <p>&copy; 2026 MTVZ. Всички права запазени.</p>
                 <div className="flex gap-6">
                     {FOOTER_LEGAL.map((link) => (
