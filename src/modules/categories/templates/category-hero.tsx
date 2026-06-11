@@ -1,5 +1,6 @@
 import { HttpTypes } from "@medusajs/types"
 import { getCategorySiteAsset } from "@lib/data/site-assets"
+import SmartImage from "@modules/common/components/smart-image"
 
 export default async function CategoryHero({
   category,
@@ -16,10 +17,14 @@ export default async function CategoryHero({
   return (
     <div className="relative w-full h-[180px] md:h-[300px] flex items-center justify-center overflow-hidden mb-8 md:mb-12 bg-neutral-900">
       {image && (
-        <img
+        <SmartImage
           src={image}
           alt={imageAlt}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="object-cover"
+          fill
+          priority
+          fetchPriority="high"
+          sizes="100vw"
         />
       )}
 
