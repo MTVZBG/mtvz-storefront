@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { clx } from "@medusajs/ui"
+import { cx } from "@lib/util/cx"
 import type { CategorySeoFaqItem } from "@lib/data/category-seo"
 
 type SEOFaqAccordionProps = {
@@ -37,7 +37,7 @@ export default function SEOFaqAccordion({ faq }: SEOFaqAccordionProps) {
                 onClick={() => setOpenIndex(isOpen ? null : index)}
               >
                 <span
-                  className={clx(
+                  className={cx(
                     "font-semibold text-[15px] group-hover:text-black transition-colors",
                     {
                       "text-black": isOpen,
@@ -49,7 +49,7 @@ export default function SEOFaqAccordion({ faq }: SEOFaqAccordionProps) {
                 </span>
 
                 <span
-                  className={clx(
+                  className={cx(
                     "ml-6 flex-shrink-0 text-gray-400 transform transition-transform duration-200",
                     {
                       "rotate-180": isOpen,
@@ -61,7 +61,7 @@ export default function SEOFaqAccordion({ faq }: SEOFaqAccordionProps) {
               </button>
 
               <div
-                className={clx("overflow-hidden transition-all duration-300 ease-in-out", {
+                className={cx("overflow-hidden transition-all duration-300 ease-in-out", {
                   "max-h-[500px] opacity-100 pb-5": isOpen,
                   "max-h-0 opacity-0": !isOpen,
                 })}

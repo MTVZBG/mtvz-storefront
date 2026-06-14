@@ -10,10 +10,8 @@ import { getCategoryHref } from "@lib/util/category-href"
 import type { CategorySeoContent } from "@lib/data/category-seo"
 
 import CategoryHero from "./category-hero"
-import CategorySidebar from "./category-sidebar"
 import TopControlBar from "./top-control-bar"
 import SEOFaqAccordion from "./seo-faq-accordion"
-import MobileFilterDrawer from "./mobile-filter-drawer"
 import CategorySeoMediaSections from "./category-seo-media-sections"
 import CategorySeoRichText from "../components/category-seo-rich-text"
 
@@ -63,18 +61,11 @@ export default function CategoryTemplate({
           <span>/ <span className="text-black ml-1 border-b border-black">{category.name}</span></span>
         </div>
 
-        {/* 5. Main Content Layout (Two columns) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 w-full">
+        {/* 5. Main Content Layout */}
+        <div className="w-full">
 
-          {/* 6. Filter Sidebar - Sticky */}
-          <div className="hidden lg:block lg:col-span-3 sticky top-[100px] h-fit max-h-[calc(100vh-120px)] overflow-y-auto hide-scrollbar pb-10">
-            <CategorySidebar />
-          </div>
-
-          {/* Right Column: Products & Controls */}
-          <div className="col-span-1 lg:col-span-9 flex flex-col w-full">
-            {/* Mobile Filter Drawer (hidden on Desktop) */}
-            <MobileFilterDrawer />
+            {/* Products & Controls */}
+            <div className="flex flex-col w-full">
 
             {categorySeoContent?.intro_text ? (
               <CategorySeoRichText

@@ -1,6 +1,6 @@
 "use client"
 
-import { clx } from "@medusajs/ui"
+import { cx } from "@lib/util/cx"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 export function Pagination({
@@ -36,7 +36,7 @@ export function Pagination({
   ) => (
     <button
       key={p}
-      className={clx("text-[14px] font-semibold transition-colors", {
+      className={cx("text-[14px] font-semibold transition-colors", {
         "text-black": isCurrent,
         "text-gray-400 hover:text-black": !isCurrent,
       })}
