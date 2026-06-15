@@ -66,37 +66,23 @@ const ProductDetailsSection = ({ product }: ProductDetailsProps) => {
                             <SpecRow label="Страна на произход" value={product.origin_country} />
                             <SpecRow label="Тип" value={product.type?.value} />
                             <SpecRow label="Тегло" value={product.weight ? `${product.weight} g` : null} />
-                            <SpecRow label="Размери" value={product.length && product.width && product.height ? `${product.length}L x ${product.width}W x ${product.height}H` : null} />
+                            <SpecRow
+                                label="Размери"
+                                value={
+                                    product.length && product.width && product.height
+                                        ? `${product.length}L x ${product.width}W x ${product.height}H`
+                                        : null
+                                }
+                            />
                         </div>
                     </div>
 
                     {/* Reviews Section Placeholder */}
                     <div className="mtvz-product-details-panel mtvz-product-details-reviews-panel">
-                        <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-16 bg-gray-50 rounded-2xl p-8 md:p-12">
-                            <div className="flex flex-col items-center">
-                                <span className="text-5xl md:text-6xl font-bold text-[#1a1a1a]">4.8</span>
-                                <div className="flex gap-[3px] text-[#FFB800] mt-3">
-                                    {[1, 2, 3, 4, 5].map((i) => (
-                                        <svg key={i} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" /></svg>
-                                    ))}
-                                </div>
-                                <span className="text-sm text-gray-400 font-medium mt-2">83 мнения</span>
-                            </div>
-
-                            <div className="flex-1 flex flex-col gap-2 w-full max-w-sm">
-                                {[5, 4, 3, 2, 1].map((star) => (
-                                    <div key={star} className="flex items-center gap-4">
-                                        <span className="text-sm font-bold text-gray-400 w-3">{star}</span>
-                                        <div className="flex-1 h-2.5 bg-gray-200 rounded-full overflow-hidden">
-                                            <div className="h-full bg-[#FFB800]" style={{ width: star === 5 ? "80%" : star === 4 ? "15%" : "5%" }} />
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="mt-8 text-center text-gray-500 text-sm">
-                            Мненията ще се появят тук след интегриране на система за обратна връзка.
+                        <div className="bg-gray-50 rounded-2xl p-8 md:p-12 text-center">
+                            <p className="text-gray-600 text-[15px] md:text-base leading-relaxed">
+                                Мненията ще се появят тук след интегриране на система за обратна връзка.
+                            </p>
                         </div>
                     </div>
                 </div>
