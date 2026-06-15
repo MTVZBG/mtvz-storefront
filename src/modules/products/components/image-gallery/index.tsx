@@ -33,6 +33,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
               <SmartImage
                 src={img.url}
                 priority={idx === 0}
+                fetchPriority={idx === 0 ? "high" : undefined}
                 className="absolute inset-0 object-cover object-center w-full h-full md:group-hover:scale-110 transition-transform duration-500 origin-center"
                 alt={`Product image ${idx + 1}`}
                 fill
