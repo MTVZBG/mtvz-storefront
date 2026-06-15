@@ -32,14 +32,6 @@ const isValidImageSrc = (src?: string | null): src is string => {
   return typeof src === "string" && src.trim().length > 0
 }
 
-const thumbnailImageSizes: Record<NonNullable<ThumbnailProps["size"]>, string> = {
-  small: "180px",
-  medium: "290px",
-  large: "440px",
-  full: "100vw",
-  square: "(max-width: 639px) 50vw, (max-width: 1023px) 33vw, 25vw",
-}
-
 const Thumbnail: React.FC<ThumbnailProps> = ({
   thumbnail,
   images,
@@ -84,7 +76,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
             }
           )}
           fill
-          sizes={thumbnailImageSizes[size]}
+          sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
           draggable={false}
         />
       ) : (
@@ -99,7 +91,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
           alt="Thumbnail hover"
           className="absolute inset-0 h-full w-full object-cover object-center opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           fill
-          sizes={thumbnailImageSizes[size]}
+          sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
           draggable={false}
         />
       )}
