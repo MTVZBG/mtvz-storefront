@@ -38,7 +38,13 @@ export default function ProductActions({
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  const [options, setOptions] = useState<Record<string, string | undefined>>({})
+  const [options, setOptions] = useState<Record<string, string | undefined>>(() => {
+    if (product.variants?.length === 1) {
+      return optionsAsKeymap(product.variants[0].options) ?? {}
+    }
+
+    return {}
+  })
   const [isAdding, setIsAdding] = useState(false)
   const countryCode = useParams().countryCode as string
 
