@@ -13,14 +13,16 @@ export const convertToLocale = ({
   currency_code,
   minimumFractionDigits,
   maximumFractionDigits,
-  locale = "en-US",
+  locale = "bg-BG",
 }: ConvertToLocaleParams) => {
+  const hasDecimals = !Number.isInteger(amount)
+
   return currency_code && !isEmpty(currency_code)
     ? new Intl.NumberFormat(locale, {
         style: "currency",
         currency: currency_code,
-        minimumFractionDigits,
-        maximumFractionDigits,
+        minimumFractionDigits: minimumFractionDigits ?? (hasDecimals ? 2 : 0),
+        maximumFractionDigits: maximumFractionDigits ?? (hasDecimals ? 2 : 0),
       }).format(amount)
     : amount.toString()
 }
